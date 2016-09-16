@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>egpavelka || weather</title>
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	<link rel="stylesheet" type="text/css" href="animate.css">
+</head>
+
+<body>
+	<div id="container" class="container">
+
+		<!-- navigation -->
+		<div class="navigation-button"></div>
+			<div class="navigation-menu">
+				<div class="current-city">
+					<!-- if found by geolocation -->
+					<div class="current-city-detected-icon"></div>
+				</div>
+				<div class="search-city"></div>
+
+				<div class="temp-scale" id="temp-far" onclick="setTempScale('f')">F</div>
+				<div class="temp-scale" id="temp-cel" onclick="setTempScale('c')">C</div>
+			</div>
+		<!-- current conditions -->
+	<div class="current">
+		<div class="current-icon"></div>
+		<div class="current-temp"></div>
+		<div class="current-cond"></div>
+	</div>
+
+	<!-- 5-day forecast -->
+	<div class="forecast-day">
+		<table class="forecast-day-list">
+			<tr>
+				<td class="forecast-day-name"></td>
+				<td class="forecast-day-icon"></td>
+				<td class="forecast-day-high"></td>
+				<td class="forecast-day-low"></td>
+			</tr>
+		</table>
+	</div>
+
+	</div>
+	<!-- SCRIPTS -->
+	<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+	<script data-require="angular.js@1.5.x" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+	<script type="text/javascript" src="script.js"></script>
+</body>
+
+</html>

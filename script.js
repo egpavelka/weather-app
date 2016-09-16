@@ -7,9 +7,9 @@ function getLocation() {
     lat = position.coords.latitude;
     long = position.coords.longitude;
     // create current conditions URL
-    weatherURL = "api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + long;
+    weatherURL = "api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + long + "&APPID=831f9a0e76c47eb878b49f28785cd20b";
     // create forecast URL
-    forecastURL = "api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + long;
+    forecastURL = "api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + long + "&APPID=831f9a0e76c47eb878b49f28785cd20b";
   },
 // error callback
 alert("Your location cannot be detected.  Please enter a valid U.S. postal code to continue.")
