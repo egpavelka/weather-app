@@ -43,11 +43,11 @@ _____________________________________________________________
 - Forecast lows
 - Forecast conditions
 
-### CONVERSION OF JSON DATA:
+## CONVERSION OF JSON DATA:
 - Temp from Kelvin
 - Sunrise/sunset times
 
-### CHANGE BY INPUT/SELECTION:
+## CHANGE BY INPUT/SELECTION:
 - Location by lookup
 - Temperature scale by button
 
