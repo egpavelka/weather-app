@@ -4,7 +4,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>egpavelka || weather</title>
-	<link rel="stylesheet" type="text/css" href="styles.css">
+	 <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
@@ -24,11 +25,25 @@
 				<div class="temp-scale" id="temp-far" onclick="setTempScale('f')">F</div>
 				<div class="temp-scale" id="temp-cel" onclick="setTempScale('c')">C</div>
 			</div>
+
 		<!-- current conditions -->
 	<div class="current">
-		<div class="current-icon"></div>
-		<div class="current-temp"></div>
-		<div class="current-cond"></div>
+		<div class="current-icon"><img src="/icon/xx.png" /></div>
+		<div class="current-temp">67</div>
+		<div class="current-cond">rainy</div>
+	</div>
+
+	<!-- hourly forecast -->
+	<div class="forecast-hour">
+		<div class="current-day">Thursday</div>
+		<div class="current-high-low">76/66</div>
+		<div class="forecast-hour-list">
+			<div class="forecast-hour-icon"></div>
+			<div class="forecast-hour-temp"></div>
+			<div class="forecast-hour-cond"></div>
+			<div class="forecast-hour-time"></div>
+		</div>
+
 	</div>
 
 	<!-- 5-day forecast -->
@@ -45,8 +60,8 @@
 
 	</div>
 	<!-- SCRIPTS -->
+	<script type="text/javascript" src="moment.js"></script>
 	<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
-	<script data-require="angular.js@1.5.x" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
 	<script type="text/javascript" src="script.js"></script>
 </body>
 
