@@ -1,14 +1,12 @@
-%flex-h,
-.flex-h {
+%flex-h {
 	@extend %display-flex;
-	@extend %align-items-flex-start;
+	@extend %align-items-center;
 	@extend %justify-content-center;
 	@extend %align-content-center;
 	@include flex-flow(row, wrap);
 }
 
-%flex-v,
-.flex-v {
+%flex-v {
 	@extend %display-flex;
 	@extend %align-content-stretch;
 	@extend %align-items-center;

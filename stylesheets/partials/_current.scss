@@ -1,4 +1,5 @@
 .current {
+  @extend %flex-v;
     .current-icon {
         img {
             //

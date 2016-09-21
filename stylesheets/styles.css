@@ -8,8 +8,7 @@
 /*
     Display
  */
-.flex-h,
-.flex-v {
+.current {
   display: -webkit-box;
   display: -moz-box;
   display: -webkit-flexbox;
@@ -20,15 +19,7 @@
 /*
     Flex direction
  */
-.flex-h {
-  -webkit-box-orient: horizontal;
-  -moz-box-orient: horizontal;
-  -webkit-flex-direction: row;
-  -moz-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row; }
-
-.flex-v {
+.current {
   -webkit-box-orient: vertical;
   -moz-box-orient: vertical;
   -webkit-flex-direction: column;
@@ -39,17 +30,11 @@
 /*
     Flex wrap
  */
-.flex-v {
+.current {
   -webkit-flex-wrap: nowrap;
   -moz-flex-wrap: nowrap;
   -ms-flex-wrap: none;
   flex-wrap: nowrap; }
-
-.flex-h {
-  -webkit-flex-wrap: wrap;
-  -moz-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap; }
 
 /*
     Flex flow
@@ -72,26 +57,10 @@
 /*
     Justify content
  */
-.flex-h {
-  -webkit-box-pack: center;
-  -moz-box-pack: center;
-  -webkit-flex-pack: center;
-  -ms-flex-pack: center;
-  -moz-justify-content: center;
-  -webkit-justify-content: center;
-  justify-content: center; }
-
 /*
     Align items
  */
-.flex-h {
-  -webkit-box-align: start;
-  -ms-flex-align: start;
-  -webkit-align-items: flex-start;
-  -moz-align-items: flex-start;
-  align-items: flex-start; }
-
-.flex-v {
+.current {
   -webkit-box-align: center;
   -ms-flex-align: center;
   -webkit-align-items: center;
@@ -104,13 +73,7 @@
 /*
     Align content
  */
-.flex-h {
-  -ms-flex-line-pack: center;
-  -webkit-align-content: center;
-  -moz-align-content: center;
-  align-content: center; }
-
-.flex-v {
+.current {
   -ms-flex-line-pack: stretch;
   -webkit-align-content: stretch;
   -moz-align-content: stretch;
@@ -127,5 +90,10 @@
 body {
   font-family: 'Raleway', sans serif;
   text-align: center; }
+
+.container {
+  height: 100vh;
+  width: 100vw;
+  padding: 50px 30px; }
 
 /*# sourceMappingURL=styles.css.map */
