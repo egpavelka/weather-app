@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>egpavelka || weather</title>
-	 <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="stylesheets/styles.css">
 </head>
 
@@ -15,48 +15,61 @@
 		<!-- open/close menu -->
 		<div class="navigation-button"></div>
 		<!-- navigation bar -->
-			<div class="navigation-menu">
-				<div class="current-city">
-					<!-- if found by geolocation -->
-					<div class="current-city-detected-icon"></div>
-				</div>
-				<div class="search-city"></div>
-
-				<div class="temp-scale" id="temp-far" onclick="setTempScale('f')">F</div>
-				<div class="temp-scale" id="temp-cel" onclick="setTempScale('c')">C</div>
+		<div class="navigation-menu">
+			<div class="current-city">
+				<!-- if found by geolocation -->
+				<div class="current-city-detected-icon"></div>
 			</div>
+			<div class="search-city"></div>
+
+			<div class="temp-scale" id="temp-far" onclick="setTempScale('f')">F</div>
+			<div class="temp-scale" id="temp-cel" onclick="setTempScale('c')">C</div>
+		</div>
 
 		<!-- current conditions -->
-	<div class="current">
-		<div class="current-icon"><img src="icon/xx.png" /></div>
-		<div class="current-temp">67</div>
-		<div class="current-cond">Rainy</div>
-	</div>
-
-	<!-- hourly forecast -->
-	<div class="hourly">
-		<div class="current-day">Thursday</div>
-		<div class="current-high-low">high <span class="current-high"></span> | low <span class="current-low"></span></div>
-		<div class="hourly-list">
-			<div class="hourly-icon"><img src="icon/xx.png" /></div>
-			<div class="hourly-temp">35</div>
-			<div class="hourly-cond">Thunderstorms</div>
-			<div class="hourly-time"></div>
+		<div class="current">
+			<div class="current-icon"><img src="icon/xx.png" /></div>
+			<div class="current-temp">67</div>
+			<div class="current-cond">Rainy</div>
 		</div>
 
-	</div>
+		<!-- hourly forecast -->
+		<div class="hourly">
 
-	<!-- 5-day forecast -->
-	<div class="daily">
-		<div class="daily-list">
-			<div class="daily-list-entry">
-				<div class="daily-name">Friday</div>
-				<div class="daily-icon"><img src="icon/xx.png" /></div>
-				<div class="daily-high">99</div>
-				<div class="daily-low">87</div>
+			<div class="hourly-day-overview">
+			<div class="current-day">Thursday</div>
+			<div class="current-high-low">HIGH <span class="current-high">93</span> | LOW <span class="current-low">69</span></div>
+			</div>
+
+			<div class="hourly-list">
+				<div class="hourly-list-entry">
+					<div class="hourly-icon"><img src="icon/xx.png" /></div>
+					<div class="hourly-temp">35</div>
+					<div class="hourly-cond">Thunderstorms</div>
+					<div class="hourly-time"></div>
+				</div>
+
+			</div>
+
+		</div>
+
+		<!-- 5-day forecast -->
+		<div class="daily">
+			<div class="daily-list">
+				<div class="daily-list-entry">
+					<div class="daily-day">
+						<div class="daily-day-weekday">
+							Fri.
+						</div>
+						<div class="daily-day-date">
+							Aug. 6
+						</div>
+					</div>
+					<div class="daily-icon"><img src="icon/xx.png" /></div>
+					<div class="daily-high-low"><span class="daily-high">77</span> / <span class="daily-low">66</span></div>
+				</div>
 			</div>
 		</div>
-	</div>
 
 	</div>
 	<!-- SCRIPTS -->

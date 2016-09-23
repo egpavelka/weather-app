@@ -1,6 +1,10 @@
 .daily {
 
     .daily-list {
+
+      .daily-list-entry {
+        @extend %flex-h;
+        
         .daily-name {
             //
         }
@@ -18,5 +22,8 @@
         .daily-low {
             //
         }
+
+      }
+
     }
 }

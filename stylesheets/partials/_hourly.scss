@@ -1,4 +1,6 @@
 .hourly {
+
+  .hourly-day-overview {
     .current-day {
         //
     }
@@ -6,8 +8,13 @@
     .current-high-low {
         //
     }
+  }
 
     .hourly-list {
+      @extend %flex-h;
+      
+      .hourly-list-entry {
+
         .hourly-icon {
             img {
                 //
@@ -25,5 +32,8 @@
         .hourly-time {
             //
         }
+
+      }
+
     }
 }
