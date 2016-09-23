@@ -6,8 +6,11 @@
 @import 'modules/typography';
 
 @import 'partials/base';
-@import 'partials/current';
-@import 'partials/hourly';
-@import 'partials/daily';
-@import 'partials/navigation-bar';
-@import 'partials/navigation-menu';
+@import 'partials/borders';
+@import 'partials/padding';
+
+@import 'sections/current';
+@import 'sections/hourly';
+@import 'sections/daily';
+@import 'sections/navigation-bar';
+@import 'sections/navigation-menu';

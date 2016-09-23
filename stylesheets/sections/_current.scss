@@ -1,16 +1,17 @@
 .current {
   @extend %flex-v;
-    .current-icon {
+    .icon {
         img {
-            //
+            height: 100px;
+            width: 100px;
         }
     }
 
-    .current-temp {
+    .temp {
         font-size: 3rem;
     }
 
-    .current-cond {
+    .cond {
         //
     }
 }

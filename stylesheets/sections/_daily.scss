@@ -1,0 +1,30 @@
+.daily {
+
+    .list {
+
+      .list-entry {
+        @extend %flex-h;
+        @extend %bottom-line;
+        .name {
+            //
+        }
+
+        .icon {
+            img {
+                height: 40px;
+                width: 40px;
+            }
+        }
+
+        .high {
+            //
+        }
+
+        .low {
+            //
+        }
+
+      }
+
+    }
+}

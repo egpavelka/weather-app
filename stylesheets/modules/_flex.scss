@@ -1,14 +1,13 @@
 %flex-h {
 	@extend %display-flex;
 	@extend %align-items-center;
-	@extend %justify-content-center;
+	@extend %justify-content-space-between;
 	@extend %align-content-center;
-	@include flex-flow(row, wrap);
+	@include flex-flow(row, nowrap);
 }
 
 %flex-v {
 	@extend %display-flex;
-	@extend %justify-content-space-between;
 	@extend %align-content-stretch;
 	@extend %align-items-center;
 	@include flex-flow(column, nowrap);

@@ -1,0 +1,42 @@
+.hourly {
+
+  .day-overview {
+    @extend %flex-h;
+    @extend %bottom-line;
+    .current-day {
+        //
+    }
+
+    .high-low {
+        font-size: .875rem;
+    }
+  }
+
+    .list {
+      @extend %flex-h;
+      @extend %bottom-line;
+      .list-entry {
+
+        .icon {
+            img {
+                height: 50px;
+                width: 50px;
+            }
+        }
+
+        .temp {
+            //
+        }
+
+        .cond {
+          font-size: .75rem;
+        }
+
+        .time {
+            //
+        }
+
+      }
+
+    }
+}
