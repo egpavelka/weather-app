@@ -42,7 +42,7 @@
 			</div>
 
 			<div class="list">
-				<div class="list-entry">
+				<div class="list-entry" ng-repeat="{{ ENTRY | limitTo:6 }}">
 					<div class="time">{{ TIME | date: 'h:mma'}}</div>
 					<div class="icon"><img ng-src="{{ ICON }}" /></div>
 					<div class="temp">{{ TEMP }}&deg;</div>
@@ -55,7 +55,7 @@
 		<!-- 5-day forecast -->
 		<div class="daily">
 			<div class="list">
-				<div class="list-entry">
+				<div class="list-entry" ng-repeat="{{ ENTRY | limitTo:5 }}">
 					<div class="day">
 						<div class="day-weekday">
 							{{ TIME | date 'EEE.'}}
