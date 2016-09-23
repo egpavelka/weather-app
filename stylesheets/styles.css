@@ -149,23 +149,32 @@ body {
 .time {
   padding-bottom: 5px; }
 
+.current .temp {
+  padding-top: 25px; }
+.current .cond {
+  padding-top: 15px; }
+
 .current .icon img {
-  height: 100px;
-  width: 100px; }
+  height: 120px;
+  width: 120px; }
 .current .temp {
   font-size: 3rem; }
 
 .hourly .day-overview .high-low {
   font-size: .875rem; }
-.hourly .list .list-entry .icon img {
-  height: 50px;
-  width: 50px; }
-.hourly .list .list-entry .cond {
-  font-size: .75rem; }
+.hourly .list {
+  overflow-x: scroll; }
+  .hourly .list .list-entry .icon img {
+    height: 50px;
+    width: 50px; }
+  .hourly .list .list-entry .cond {
+    font-size: .75rem; }
 
-.daily .list .list-entry .icon img {
-  height: 40px;
-  width: 40px; }
+.daily .list {
+  overflow-y: scroll; }
+  .daily .list .list-entry .icon img {
+    height: 40px;
+    width: 40px; }
 
 .navigation-menu {
   display: none; }

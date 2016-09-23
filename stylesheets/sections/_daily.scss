@@ -1,7 +1,7 @@
 .daily {
 
     .list {
-
+    overflow-y: scroll;
       .list-entry {
         @extend %flex-h;
         @extend %bottom-line;
