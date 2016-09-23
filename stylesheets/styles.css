@@ -57,6 +57,15 @@
 /*
     Justify content
  */
+.current {
+  -webkit-box-pack: justify;
+  -moz-box-pack: justify;
+  -webkit-flex-pack: justify;
+  -ms-flex-pack: justify;
+  -moz-justify-content: space-between;
+  -webkit-justify-content: space-between;
+  justify-content: space-between; }
+
 /*
     Align items
  */
@@ -79,6 +88,10 @@
   -moz-align-content: stretch;
   align-content: stretch; }
 
+body {
+  font-family: 'Raleway', sans serif;
+  text-align: center; }
+
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -87,13 +100,15 @@
   margin: 0;
   border: none; }
 
-body {
-  font-family: 'Raleway', sans serif;
-  text-align: center; }
-
 .container {
   height: 100vh;
   width: 100vw;
   padding: 50px 30px; }
+
+.current .current-temp {
+  font-size: 3rem; }
+
+.navigation-menu {
+  display: none; }
 
 /*# sourceMappingURL=styles.css.map */

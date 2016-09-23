@@ -8,6 +8,7 @@
 
 %flex-v {
 	@extend %display-flex;
+	@extend %justify-content-space-between;
 	@extend %align-content-stretch;
 	@extend %align-items-center;
 	@include flex-flow(column, nowrap);
