@@ -4,16 +4,73 @@
 <head>
 	<meta charset="UTF-8">
 	<title>egpavelka || weather</title>
+	<link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="stylesheets/styles.css">
 </head>
 
 <body>
 	<div id="container" class="container">
 
+		<!-- navigation -->
+		<!-- open/close menu -->
+		<div class="navigation-button"></div>
+		<!-- navigation bar -->
+		<div class="navigation-menu">
+			<div class="city">
+				<!-- if found by geolocation -->
+				<div class="city-detected-icon"></div>
+			</div>
+			<div class="search-city"></div>
+
+			<div class="temp-scale" id="temp-far" onclick="setTempScale('f')">F</div>
+			<div class="temp-scale" id="temp-cel" onclick="setTempScale('c')">C</div>
+		</div>
+
+		<!-- current conditions -->
+		<div class="current">
+			<div class="icon"><img ng-src="{{ ICON }}" /></div>
+			<div class="temp">{{ TEMP }}&deg;</div>
+			<div class="cond">{{ COND }}</div>
+		</div>
+
+		<!-- hourly forecast -->
+		<div class="hourly">
+
+			<div class="day-overview">
+			<div class="day">{{ TIME | date: 'EEEE, MMMM dd'}}</div>
+			<div class="temp">{{ HIGH }}&deg; / {{ LOW }}&deg;</div>
+			</div>
+
+			<div class="list">
+				<div class="list-entry">
+					<div class="time">{{ TIME | date: 'h:mma'}}</div>
+					<div class="icon"><img ng-src="{{ ICON }}" /></div>
+					<div class="temp">{{ TEMP }}&deg;</div>
+					<div class="cond">{{ COND }}</div>
+				</div>
+
+			</div>
+		</div>
+
+		<!-- 5-day forecast -->
+		<div class="daily">
+			<div class="list">
+				<div class="list-entry">
+					<div class="day">
+						<div class="day-weekday">
+							{{ TIME | date 'EEE.'}}
+						</div>
+						<div class="day-date">
+							{{ TIME | date: 'MMM. dd'}}
+						</div>
+					</div>
+					<div class="icon"><img ng-src="{{ ICON }}" /></div>
+					<div class="temp">{{ HIGH }}&deg; / {{ LOW }}&deg;</div>
+				</div>
+
 	</div>
 	<!-- SCRIPTS -->
-	<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
-	<script data-require="angular.js@1.5.x" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+	<script type="text/javascript" src="angular.min.js"></script>
 	<script type="text/javascript" src="script.js"></script>
 </body>
 
