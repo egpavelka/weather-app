@@ -27,18 +27,18 @@
 		</div>
 
 		<!-- current conditions -->
-		<div class="current">
-			<div class="icon"><img ng-src="{{ ICON }}" /></div>
-			<div class="temp">{{ TEMP }}&deg;</div>
-			<div class="cond">{{ COND }}</div>
+		<div class="current" ng-controller="CurrentController as current">
+			<div class="icon"><img ng-src="{{ current.data.weather.icon }}" /></div>
+			<div class="temp">{{ current.data.main.temp }}&deg;</div>
+			<div class="cond">{{ current.data.weather.description }}</div>
 		</div>
 
 		<!-- hourly forecast -->
-		<div class="hourly">
+		<div class="hourly" ng-controller="HourlyController as hourly">
 
 			<div class="day-overview">
-			<div class="day">{{ TIME | date: 'EEEE, MMMM dd'}}</div>
-			<div class="temp">{{ HIGH }}&deg; / {{ LOW }}&deg;</div>
+			<div class="day">{{ daily.data.list[0].dt | date: 'EEEE, MMMM dd'}}</div>
+			<div class="temp">{{ daily.data.list[0].temp.max }}&deg; / {{ daily.data.list[0].temp.min }}&deg;</div>
 			</div>
 
 			<div class="list">

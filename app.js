@@ -2,15 +2,15 @@ function() {
 // APP
 var app = angular.module('weatherApp', []);
 
-app.controller('CurrentController', function() {
+app.controller('CurrentController', function($scope, $http) {
   this.data = currentData;
 });
 
-app.controller('CurrentController', function() {
+app.controller('HourlyController', function($scope, $http) {
   this.data = currentData;
 });
 
-app.controller('CurrentController', function() {
+app.controller('DailyController', function($scope, $http) {
   this.data = currentData;
 });
 

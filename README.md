@@ -17,6 +17,14 @@
 
 _____________________________________________________________
 
+#CHANGELOG
+
+## [Unreleased] 2016.09.30
+### NOTES
+- Instead of using separate controllers for each of the three API calls, should I combine them into one? (Important because some info from one data set will need to appear in a div that's hooked to a different controller.)
+- Probably need to build a filter for temperature conversion--need to go from K to F/C and be able to change scale.
+_____________________________________________________________
+
 # GAMEPLAN/OUTLINE
 
 ## DATA POINTS FROM APIs:
