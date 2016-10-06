@@ -11,9 +11,9 @@ app.factory('locationService', ['$window', '$q', function($window, $q) {
       // TODO validate zipcode
       zipcode = 0; // TEMP until prompt created
       // create current conditions URL
-      conditionsURL = 'api.openweathermap.org/data/2.5/weather?zip=' + zip + ',us' + '&APPID=831f9a0e76c47eb878b49f28785cd20b';
+      conditionsURL = 'api.openweathermap.org/data/2.5/weather?zip=' + zip + ',us&APPID=831f9a0e76c47eb878b49f28785cd20b';
       // create forecast URL
-      forecastURL = 'api.openweathermap.org/data/2.5/weather?zip=' + zip + ',us' + '&APPID=831f9a0e76c47eb878b49f28785cd20b';
+      forecastURL = 'api.openweathermap.org/data/2.5/weather?zip=' + zip + ',us&APPID=831f9a0e76c47eb878b49f28785cd20b';
     } else {
       $window.navigator.geolocation.getCurrentPosition(function(position) {
         deferred.resolve({
