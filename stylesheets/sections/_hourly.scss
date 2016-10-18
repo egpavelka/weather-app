@@ -16,8 +16,9 @@
       @extend %flex-h;
       @extend %bottom-line;
       overflow-x: scroll;
-      
+
       .list-entry {
+        margin: auto 25px;
 
         .icon {
             img {
