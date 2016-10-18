@@ -19,59 +19,16 @@ _____________________________________________________________
 
 #CHANGELOG
 
+## [Unreleased] 2016.10.18
+- New branch to escape planning clutter.
+
+### NOTES
+- Using static JSON URLs, create controller to fetch weather with one $http call.
+- Chain two more $http calls.
+- Create zipcode lookup--possibly using an autocompleting framework, like when searching Google Maps?
+- Build JSON URL with zipcode or lat & long, API key, units--make switchable
+
 ## [Unreleased] 2016.09.30
 ### NOTES
 - Instead of using separate controllers for each of the three API calls, should I combine them into one? (Important because some info from one data set will need to appear in a div that's hooked to a different controller.)
 - Probably need to build a filter for temperature conversion--need to go from K to F/C and be able to change scale.
-_____________________________________________________________
-
-# GAMEPLAN/OUTLINE
-
-## DATA POINTS FROM APIs:
-### Day/Night:
-- Current time
-- Local sunrise/sunset
-
-### Current weather conditions:
-- Temp
-- Conditions
-- Current day
-- Today's high/low
-
-### Hourly forecast:
-- Current time
-- Forecast times
-- Forecast temps
-- Forecast conditions
-
-### Day forecast:
-- Current day
-- Forecast days
-- Forecast highs
-- Forecast lows
-- Forecast conditions
-
-## CONVERSION OF JSON DATA:
-- Temp from Kelvin
-- Sunrise/sunset times
-
-## CHANGE BY INPUT/SELECTION:
-- Location by lookup
-- Temperature scale by button
-
-## CONDITIONAL VISUALS:
-### Page background:
-- Current conditions
-- Current time of day
-
-### Condition indicators:
-- Large icon for current conditions
-- Small icons for hourly and daily forecasts
-
-### Location indicator on navigator bar:
-- Visible if geolocation is active
-
-## DATA SOURCES:
-- openweather API - weather
-- openweather API - forecast
-- UNDETERMINED: zipcode lookup/validator
