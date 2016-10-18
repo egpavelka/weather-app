@@ -2,6 +2,7 @@
 
     .list {
     overflow-y: scroll;
+    max-width: 100vw;
       .list-entry {
         @extend %flex-h;
         @extend %bottom-line;

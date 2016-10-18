@@ -20,6 +20,13 @@
       .list-entry {
         margin: auto 25px;
 
+        &:first-child {
+          margin-left: 0;
+        }
+        &:last-child {
+          margin-right: 0;
+        }
+
         .icon {
             img {
                 height: 50px;
