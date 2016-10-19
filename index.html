@@ -8,35 +8,33 @@
 	<link rel="stylesheet" type="text/css" href="stylesheets/styles.min.css">
   <!-- SCRIPTS -->
 <script src="angular.min.js"></script>
-  <script src="app.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAH_JegEmVYDzTPCNhqp2au7vt5GbZ_DTY&libraries=places&callback=initAutocomplete" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAH_JegEmVYDzTPCNhqp2au7vt5GbZ_DTY&libraries=places"></script>
+<script src="app.js"></script>
 </head>
 
 <body>
 
   <!-- navigation -->
-  <!-- open/close menu -->
-  <div class="navigation-button"></div>
-  <!-- navigation bar -->
-  <div class="navigation-menu">
-    <div class="city">
-      <!-- if found by geolocation -->
-      <div class="city-detected-icon"></div>
-    </div>
-    <div class="search-city"></div>
 
-    <div class="temp-scale" id="temp-far" onclick="setTempScale('f')">F</div>
-    <div class="temp-scale" id="temp-cel" onclick="setTempScale('c')">C</div>
+  <div class="navigation-menu">
+<div class="error-message">
+  Geolocation is not enabled in this browser.  Please enter a location to continue.
+
+</div>
   </div>
 
 	<div id="container" class="container" ng-controller="weatherController as weather" ng-style="{'background-image':'url(img/'+weather.current.weather[0].icon+'.jpg)'}">
-    <div id="inner-container" class="container inner">
 
+
+
+    <div id="inner-container" class="container inner">
 
     <!-- current conditions -->
 		<div class="current">
 			<div class="icon"><img ng-src="icon/{{ weather.current.weather[0].icon }}.png" />
     </div>
-			<div class="temp">{{ weather.current.main.temp }}&deg;</div>
+			<div class="temp">{{ weather.current.main.temp | convertTemp: 'f' }}&deg;</div>
 			<div class="cond">{{ weather.current.weather[0].description }}</div>
 		</div>
 

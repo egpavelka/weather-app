@@ -1,0 +1,32 @@
+.navigation-bar {
+  position: absolute;
+  z-index: 100;
+  background-color: rgba($dkgrey, .7);
+  width: 100vw;
+  padding: 10px 25px;
+
+  .location {
+    float: left;
+  }
+  .scale {
+    float: right;
+    text-transform: uppercase;
+    font-size: .625rem;
+    letter-spacing: .1rem;
+    .scale-type {
+      &:first-child {
+        margin-right: 10px;
+      }
+      &:hover {
+        cursor: pointer;
+        font-size: .7rem;
+      }
+    }
+    .active {
+      font-size: .7rem;
+    }
+    .inactive {
+      color: $grey;
+    }
+  }
+}

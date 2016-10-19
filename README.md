@@ -18,6 +18,10 @@
 _____________________________________________________________
 
 # CHANGELOG
+## [Unreleased] 2016.10.19
+### COMPLETED
+- Added Google API for location autocompleting and sample file.
+- Created filter for temperature conversion.  Takes 'f' or 'c' as argument--"easiest" idea is to create two identical elements for each temperature value and have the inactive scale set to display: none.  Could also change the JSON URL and reload all three data sets.  Neither seems efficient--find better.
 
 ## [Unreleased] 2016.10.18
 ### COMPLETED
@@ -25,7 +29,7 @@ _____________________________________________________________
 - View is complete pending minor tweaks.
 
 ### IN PROGRESS
-- Next step is to create tempererature scale switch.
+- Next step is to create temperature scale switch.
 - Geolocation and URL building.
 - Get rid of scrollbars or use media queries to control overflow.
 - Make sure background images aren't too distracting/busy.
