@@ -3,22 +3,32 @@
   .day-overview {
     @extend %flex-h;
     @extend %bottom-line;
-    .current-day {
-        //
+    padding: 10px;
+    .day {
+        text-transform: uppercase;
+                font-size: .875rem;
+                letter-spacing: .1rem;
     }
 
-    .high-low {
-        font-size: .875rem;
+    .temp {
+        .high {
+            padding-right: 10px;
+        }
+
+        .low {
+            color: $grey;
+        }
     }
   }
 
     .list {
       @extend %flex-h;
       @extend %bottom-line;
-      overflow-x: scroll;
+      padding: 10px;
 
       .list-entry {
-        margin: auto 25px;
+        width: 120px;
+        margin: auto 20px;
 
         &:first-child {
           margin-left: 0;
@@ -28,14 +38,15 @@
         }
 
         .icon {
+          padding: 10px 0;
             img {
-                height: 50px;
-                width: 50px;
+                height: 30px;
+                width: 30px;
             }
         }
 
         .temp {
-            //
+          //
         }
 
         .cond {
@@ -43,7 +54,7 @@
         }
 
         .time {
-            //
+            font-size: .875rem;
         }
 
       }

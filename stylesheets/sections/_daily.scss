@@ -1,28 +1,38 @@
 .daily {
 
     .list {
-    overflow-y: scroll;
-    max-width: 100vw;
+
       .list-entry {
         @extend %flex-h;
         @extend %bottom-line;
-        .name {
-            //
+        padding: 20px 10px;
+        &:last-child {
+          border: none;
+        }
+        div {
+          width: 150px;
+        }
+        .day {
+            text-align: left;
+            flex-shrink: 2;
         }
 
         .icon {
+          flex-shrink: 1;
             img {
-                height: 40px;
-                width: 40px;
+                height: 30px;
+                width: 30px;
             }
         }
+        .temp {
+          text-align: right;
+          .high {
+              padding-right: 10px;
+          }
 
-        .high {
-            //
-        }
-
-        .low {
-            //
+          .low {
+              color: $grey;
+          }
         }
 
       }

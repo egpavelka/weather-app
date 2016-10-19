@@ -17,7 +17,18 @@
 
 _____________________________________________________________
 
-#CHANGELOG
+# CHANGELOG
+
+## [Unreleased] 2016.10.18
+### COMPLETED
+- All data is fetched and displayed using static URLs.
+- View is complete pending minor tweaks.
+
+### IN PROGRESS
+- Next step is to create tempererature scale switch.
+- Geolocation and URL building.
+- Get rid of scrollbars or use media queries to control overflow.
+- Make sure background images aren't too distracting/busy.
 
 ## [Unreleased] 2016.10.18
 - New branch to escape planning clutter.
