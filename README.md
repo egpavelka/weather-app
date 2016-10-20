@@ -20,6 +20,10 @@ _____________________________________________________________
 # CHANGELOG
 ## [Unreleased] 2016.10.19
 ### COMPLETED
+- Switch between Fahrenheit and Celsius.
+
+## [Unreleased] 2016.10.19
+### COMPLETED
 - Added Google API for location autocompleting and sample file.
 - Created filter for temperature conversion.  Takes 'f' or 'c' as argument--"easiest" idea is to create two identical elements for each temperature value and have the inactive scale set to display: none.  Could also change the JSON URL and reload all three data sets.  Neither seems efficient--find better.
 

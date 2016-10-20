@@ -7,6 +7,7 @@ var app = angular.module('weatherApp', []);
 
 app.controller('weatherController', [ '$http', function($http) {
   var weather = this;
+  
   weather.current = [];
   weather.hourly = [];
   weather.daily = [];
@@ -30,34 +31,39 @@ app.controller('weatherController', [ '$http', function($http) {
     weather.daily = response;
       console.log(response);
   }));
+
+// Change the appearance of "Fahrenheit" and "Celsius" buttons when one is triggered so that the active scale is highlighted.
+  weather.switchToC = function () {
+    document.getElementById("temp-far").className = "scale-type inactive";
+    document.getElementById("temp-cel").className = "scale-type active";
+  };
+  weather.switchToF = function () {
+    document.getElementById("temp-cel").className = "scale-type inactive";
+    document.getElementById("temp-far").className = "scale-type active";
+  };
+
 }]);
 
+// Filter to convert given temperatures from Kelvin to Fahrenheit or Celsius; used with ng-show to switch between the two.
 app.filter('convertTemp', [function() {
+
   return function(temp, scale) {
     var convertedTemp;
+
     if (scale === 'c') {
     var c = temp - 273.15;
     convertedTemp = Math.round(c);
   }
-  if (scale === 'f') {
-  var f = (temp * 9)/5 - 459.67;
-  convertedTemp = Math.round(f);
-}
-    return convertedTemp;
+
+    if (scale === 'f') {
+    var f = (temp * 9)/5 - 459.67;
+    convertedTemp = Math.round(f);
+  }
+    return convertedTemp + '\u00B0';
   };
 }]);
 
 /*
-app.contoller('scaleController', ['$scope', function($scope) {
-  $scope.filter = 'fahrenheit',
-  $scope.changeScaleTo = function(scale) {
-    switch ($scope.filter) {
-      case 'celsius':
-        return
-    }
-  }
-}]);
-
 app.directive('locator', [function() {
   return {
     restrict: 'AEC',
