@@ -2,114 +2,119 @@
 <html lang="en" ng-app="weatherApp">
 
 <head>
-	<meta charset="UTF-8">
-	<title>egpavelka || weather</title>
-	<link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="stylesheets/styles.min.css">
-  <!-- SCRIPTS -->
-<script src="angular.min.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAH_JegEmVYDzTPCNhqp2au7vt5GbZ_DTY&libraries=places&callback=initAutocomplete" async defer></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAH_JegEmVYDzTPCNhqp2au7vt5GbZ_DTY&libraries=places"></script>
-<script src="app.js"></script>
+    <meta charset="UTF-8">
+    <title>egpavelka || weather</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="stylesheets/styles.min.css">
+    <!-- SCRIPTS -->
+    <script src="angular.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAH_JegEmVYDzTPCNhqp2au7vt5GbZ_DTY&libraries=places&callback=initAutocomplete" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAH_JegEmVYDzTPCNhqp2au7vt5GbZ_DTY&libraries=places"></script>
+    <script src="app.js"></script>
 </head>
 
-<body>
+<body ng-controller="weatherController as weather" ng-style="{'background-image':'url(img/'+weather.current.weather[0].icon+'.jpg)'}">
 
-  <!-- navigation -->
+    <!-- navigation -->
 
-  <div class="navigation-menu">
-<div class="error-message">
-  Geolocation is not enabled in this browser.  Please enter a location to continue.
+    <div class="navigation-menu">
+        <div class="error-message">
+            Geolocation is not enabled in this browser. Please enter a location to continue.
 
-</div>
-  </div>
+        </div>
+    </div>
 
-	<div id="container" class="container" ng-controller="weatherController as weather" ng-style="{'background-image':'url(img/'+weather.current.weather[0].icon+'.jpg)'}">
+    <div id="container" class="container">
 
-    <div class="navigation-bar">
-      <div class="location">
-      <div class="city cond">
-        {{ weather.current.name }}
-        <span class="city-detected-icon"></span>
-        <!-- <span class="search-city" ng-controller="zipcodeController">
+        <div class="navigation-bar">
+            <div class="location">
+                <div class="city cond">
+                    {{ weather.current.name }}
+                    <span class="city-detected-icon"></span>
+                    <!-- <span class="search-city" ng-controller="zipcodeController">
           <form>
           <input type="text" ng-model="zipcode" autocomplete="postal-code" pattern="[0-9]{5}" placeholder="Find a new location" required/>
           <button ng-click="searchZip()">Go</button>
           </form>
         </span> -->
-      </div>
-      </div>
-      <div class="scale">
-      <span class="scale-type active" id="temp-far" ng-click="celsius = false; weather.switchToF()">fahrenheit</span>
-      <span class="scale-type inactive" id="temp-cel" ng-click="celsius = true; weather.switchToC()">celsius</span>
-      </div>
-    </div>
-
-    <div id="inner-container" class="container inner">
-
-    <!-- current conditions -->
-		<div class="current">
-			<div class="icon"><img ng-src="icon/{{ weather.current.weather[0].icon }}.png" />
-    </div>
-    <!-- fahrenheit -->
-    <div class="temp" ng-show="!celsius">{{ weather.current.main.temp | convertTemp: 'f' }}</div>
-    <!-- celsius -->
-    <div class="temp" ng-show="celsius">{{ weather.current.main.temp | convertTemp: 'c' }}</div>
-			<div class="cond">{{ weather.current.weather[0].description }}</div>
-		</div>
-
-    <!-- hourly forecast -->
-    <div class="hourly">
-
-      <div class="day-overview">
-      <div class="day">{{ weather.daily.list[0].dt*1000 | date: 'EEEE, MMMM dd' }}</div>
-      <div class="temp">
-        <!-- fahrenheit -->
-        <span class="high" ng-show="!celsius">{{ weather.daily.list[0].temp.max | convertTemp: 'f' }}</span>
-        <span class="low" ng-show="!celsius">{{ weather.daily.list[0].temp.min | convertTemp: 'f' }}</span>
-        <!-- celsius -->
-        <span class="high" ng-show="celsius">{{ weather.daily.list[0].temp.max  | convertTemp: 'c'}}</span>
-        <span class="low" ng-show="celsius">{{ weather.daily.list[0].temp.min | convertTemp: 'c' }}</span>
-      </div>
-      </div>
-
-      <div class="list">
-        <div class="list-entry" ng-repeat="hour in weather.hourly.list | limitTo:6">
-          <div class="time">{{ hour.dt*1000 | date: 'h a'}}</div>
-          <div class="icon"><img ng-src="icon/{{ hour.weather[0].icon }}.png" /></div>
-          <!-- fahrenheit -->
-          <div class="temp" ng-show="!celsius">{{ hour.main.temp  | convertTemp: 'f' }}</div>
-          <!-- celsius -->
-          <div class="temp" ng-show="celsius">{{ hour.main.temp  | convertTemp: 'c' }}</div>
-          <div class="cond">{{ hour.weather[0].description }}</div>
+                </div>
+            </div>
+            <div class="scale">
+                <span class="scale-type active" id="temp-far" ng-click="celsius = false; weather.switchToF()">fahrenheit</span>
+                <span class="scale-type inactive" id="temp-cel" ng-click="celsius = true; weather.switchToC()">celsius</span>
+            </div>
         </div>
 
-      </div>
+        <div id="scroll-container" class="scroll-container">
+
+            <div id="inner-container" class="container inner">
+
+                <!-- current conditions -->
+                <div class="current">
+                    <div class="icon"><img ng-src="icon/{{ weather.current.weather[0].icon }}.png" />
+                    </div>
+                    <!-- fahrenheit -->
+                    <div class="temp" ng-show="!celsius">{{ weather.current.main.temp | convertTemp: 'f' }}</div>
+                    <!-- celsius -->
+                    <div class="temp" ng-show="celsius">{{ weather.current.main.temp | convertTemp: 'c' }}</div>
+                    <div class="cond">{{ weather.current.weather[0].description }}</div>
+                </div>
+
+                <!-- hourly forecast -->
+                <div class="hourly">
+
+                    <div class="day-overview">
+                        <div class="day">{{ weather.daily.list[0].dt*1000 | date: 'EEEE, MMMM dd' }}</div>
+                        <div class="temp">
+                            <!-- fahrenheit -->
+                            <span class="high" ng-show="!celsius">{{ weather.daily.list[0].temp.max | convertTemp: 'f' }}</span>
+                            <span class="low" ng-show="!celsius">{{ weather.daily.list[0].temp.min | convertTemp: 'f' }}</span>
+                            <!-- celsius -->
+                            <span class="high" ng-show="celsius">{{ weather.daily.list[0].temp.max  | convertTemp: 'c'}}</span>
+                            <span class="low" ng-show="celsius">{{ weather.daily.list[0].temp.min | convertTemp: 'c' }}</span>
+                        </div>
+                    </div>
+
+                    <div class="list">
+                        <div class="list-entry" ng-repeat="hour in weather.hourly.list | limitTo:6">
+                            <div class="time">{{ hour.dt*1000 | date: 'h a'}}</div>
+                            <div class="icon"><img ng-src="icon/{{ hour.weather[0].icon }}.png" /></div>
+                            <!-- fahrenheit -->
+                            <div class="temp" ng-show="!celsius">{{ hour.main.temp | convertTemp: 'f' }}</div>
+                            <!-- celsius -->
+                            <div class="temp" ng-show="celsius">{{ hour.main.temp | convertTemp: 'c' }}</div>
+                            <div class="cond">{{ hour.weather[0].description }}</div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- 5-day forecast -->
+                <div class="daily">
+                    <div class="list">
+                        <div class="list-entry" ng-repeat="day in weather.daily.list | limitTo:6" ng-if="$index > 0">
+                            <div class="day">
+                                {{ day.dt*1000 | date: 'EEEE'}}
+                            </div>
+                            <div class="icon"><img ng-src="icon/{{ day.weather[0].icon }}.png" /></div>
+                            <div class="temp">
+                                <!-- fahrenheit -->
+                                <span class="high" ng-show="!celsius">{{ day.temp.max | convertTemp: 'f' }}</span>
+                                <span class="low" ng-show="!celsius">{{ day.temp.min | convertTemp: 'f' }}</span>
+                                <!-- celsius -->
+                                <span class="high" ng-show="celsius">{{ day.temp.max | convertTemp: 'c' }}</span>
+                                <span class="low" ng-show="celsius">{{ day.temp.min | convertTemp: 'c' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
-    <!-- 5-day forecast -->
-    <div class="daily">
-      <div class="list">
-        <div class="list-entry" ng-repeat="day in weather.daily.list | limitTo:6" ng-if="$index > 0">
-          <div class="day">
-              {{ day.dt*1000 | date: 'EEEE'}}
-          </div>
-          <div class="icon"><img ng-src="icon/{{ day.weather[0].icon }}.png" /></div>
-          <div class="temp">
-            <!-- fahrenheit -->
-            <span class="high" ng-show="!celsius">{{ day.temp.max | convertTemp: 'f' }}</span>
-            <span class="low" ng-show="!celsius">{{ day.temp.min | convertTemp: 'f' }}</span>
-            <!-- celsius -->
-            <span class="high" ng-show="celsius">{{ day.temp.max | convertTemp: 'c' }}</span>
-            <span class="low" ng-show="celsius">{{ day.temp.min | convertTemp: 'c' }}</span>
-          </div>
-        </div>
-      </div>
-  </div>
-
-</div>
-
-</div>
 </body>
 
 </html>

@@ -99,11 +99,7 @@
       // parameter when you first load the API. For example:
       // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
-      var placeSearch, autocomplete;
-      var componentForm = {
-        country: 'long_name',
-        postal_code: 'short_name'
-      };
+      var placeSearch, autocomplete, loc;
 
       function initAutocomplete() {
         // Create the autocomplete object, restricting the search to geographical
@@ -114,26 +110,36 @@
 
         // When the user selects an address from the dropdown, populate the address
         // fields in the form.
-        autocomplete.addListener('place_changed', fillInAddress);
+        autocomplete.addListener('place_changed', setSearchLocation);
       }
 
-      function fillInAddress() {
+      function setSearchLocation() {
         // Get the place details from the autocomplete object.
         var place = autocomplete.getPlace();
-
+        var zip, country, city;
         // Get each component of the address from the place details
         // and fill the corresponding field on the form.
         for (var i = 0; i < place.address_components.length; i++) {
           var addressType = place.address_components[i].types[0];
-          if (componentForm[addressType] === "postal_code") {
-            var val = place.address_components[i][componentForm[addressType]];
-            loc.zipcode = val;
+          if (addressType === 'postal_code') {
+            zip = place.address_components[i].long_name;
           }
-          if (componentForm[addressType] === "country") {
-            var val = place.address_components[i][componentForm[addressType]];
-            loc.country = val;
+          if (addressType === 'country') {
+            country = place.address_components[i].short_name;
+          }
+          if (addressType === 'locality') {
+            city = place.address_components[i].long_name;
+            city = city.replace(/\s+/g, '');
           }
         }
+      // Construct Location
+      if (zip === undefined) {
+        loc = 'q=' + city + ',' + country;
+      }
+      else {
+        loc = 'zip=' + zip + ',' + country;
+      }
+      console.log(loc);
       }
 // Pull out the
       // Bias the autocomplete object to the user's geographical location,
