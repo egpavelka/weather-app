@@ -27,13 +27,11 @@
 
         <div class="navigation-bar">
             <div class="location">
-                <div class="city cond">
-                    {{ current.name }}
+                    <span class="city-name cond">{{ current.name }}</span>
                     <span class="city-detected-icon"></span>
-                    <span class="search-city">
+                    <span class="city-search">
                       <input ng-model="chosenPlace" details="chosenPlaceDetails" googleplace/>
                     </span>
-                </div>
             </div>
             <div class="scale">
                 <span class="scale-type active" id="temp-far" ng-click="celsius = false; switchToF()">fahrenheit</span>

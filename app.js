@@ -41,19 +41,30 @@ app.controller('weatherController', [ '$http', '$scope', function($http, $scope)
   ///////////////////////////////////////////////
   ////////////// TEST ZONE /////////////////////
 
-function setGeolocation() {
-  geolocationService.getGeolocation().then(
-    // If geolocation data returned
-    function(position) {
-      $scope.$apply(function()) {
-        $scope.lat = position.coords.latitude;
-        $scope.lon = position.coords.longitude;
-      }
-    }, function(err) {
+$scope.position = {
+  lat: '',
+  lon: ''
+};
 
-    }
-  );
-}
+$scope.$watch('position', function() {
+
+});
+
+///////////////////////////////////////////////
+  function setGeolocation() {
+    geolocationService.getGeolocation().then(
+      // If geolocation data returned
+      function(position) {
+        $scope.$apply(function() {
+          $scope.lat = position.coords.latitude;
+          $scope.lon = position.coords.longitude;
+        });
+      },
+        function(err) {
+
+      }
+    );
+  }
 
   ///////////////////////////////////////////////
   ///////////////////////////////////////////////
@@ -80,6 +91,7 @@ app.directive('googleplace', function() {
                 scope.$apply(function() {
                     scope.details = scope.searchLocation.getPlace();
                     model.$setViewValue(element.val());
+                    console.log(scope.details);
                 });
             });
         }
