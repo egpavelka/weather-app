@@ -5,42 +5,33 @@
 // APP
 var app = angular.module('weatherApp', []);
 
-app.controller('weatherController', ['$scope', '$window', function($scope, $window) {
+app.controller('weatherController', ['$scope', '$window', function($scope, $window, weatherService) {
 // INITIALIZE RESULTS
-  $scope.current = '';
-  $scope.hourly = '';
-  $scope.daily = '';
+  $scope.current = [];
+  $scope.hourly = [];
+  $scope.daily = [];
 
 // CHECK FOR GEOLOCATION
 if ($window.navigator && $window.navigator.geolocation) {
     $window.navigator.geolocation.getCurrentPosition(function(position) {
-      fetchData(position.coords.latitude, position.coords.longitude);
-      console.log(position);
+      function() { // TODO
+      weatherService.setCoords(position.coords.latitude, position.coords.longitude);
+    }
     }, function(error) {
 console.log('problem');
       // document.getElementById('error') = "Geoocation may not be enabled on this device.  Please use the search bar above to find your location."
   });
 }
 
-// WATCH FOR LOCATION SEARCH
-$scope.$watch('searchLocation', function(data) {
-  if (data) {
-      console.log(data.detail);
-  }
-});
-
 // Create call to factory for each OpenWeather API and assign results.
 function fetchData(lat, lon) {
-  weatherService.fetchWeather(lat, lon, 'weather')
-  .success(function(response){
-    $scope.current = response;
-  }).then(weatherService.fetchWeather(lat, lon, 'forecast')
-  .success(function(response){
-    $scope.hourly = response;
-  })).then(weatherService.fetchWeather(lat, lon, 'forecast/daily')
-  .success(function(response){
-    $scope.daily = response;
-  }));
+$scope.current = function(){ weatherService.fetchWeather(lat, lon, 'weather');
+};
+$scope.hourly = function(){ weatherService.fetchWeather(lat, lon, 'forecast');
+};
+$scope.daily = function(){ weatherService.fetchWeather(lat, lon, 'forecast');
+};
+console.log($scope.current);
 }
 
 // Change the appearance of "Fahrenheit" and "Celsius" buttons when one is triggered so that the active scale is highlighted.
@@ -55,14 +46,53 @@ function fetchData(lat, lon) {
 
 }]);
 
-app.factory('weatherService', ['$http', '$scope', function($http, $scope) {
-  
-  // function fetchWeather (lat, lon, dataType) {
-  //   $http.get('http://api.openweathermap.org/data/2.5/' + dataType + '?lat=' + lat + '&lon=' + lon + '&APPID=831f9a0e76c47eb878b49f28785cd20b')
-  //   .success(function(response) {
-  //     return response;
-  //   });
-  // }
+app.factory('weatherService', ['$http', '$q', function($http,$q) {
+  var weatherData = {};
+      // URL INGREDIENTS
+  var baseUrl = 'http://api.openweathermap.org/data/2.5/',
+      coords = '',
+      appId = '&APPID=831f9a0e76c47eb878b49f28785cd20b',
+      // API URLS
+      currentUrl = '',
+      hourlyUrl = '',
+      dailyUrl = '';
+
+  weatherData.setUrls = function() {
+    currentUrl = baseUrl + 'weather' + coords + appId;
+    hourlyUrl = baseUrl + 'forecast' + coords + appId;
+    dailyUrl = baseUrl + 'forecast/daily' + coords + appId;
+  };
+
+  weatherData.setCoords = function(lat, lon){
+    coords = '?lat=' + lat + '&lon=' + lon;
+    console.log(coords);
+  };
+
+  weatherData.fetchWeather = function () {
+    setUrls();
+    return {
+      loadDataFromUrls: function () {
+        var urlList = [currentUrl, hourlyUrl, dailyUrl];
+        return $q.all(urlList.map(function(single) {
+          return $http({
+            method: 'GET',
+            url: single
+          });
+        }))
+        .then(function(data) {
+          var weatherList = {};
+          data.forEach(function(val, i) {
+            weatherList[urlList[i]] = val.data;
+          });
+          //return weatherList;
+          console.log(weatherList);
+        });
+      }
+    };
+  };
+
+  return weatherData;
+
 }]);
 
 app.directive('googleplace', function() {
