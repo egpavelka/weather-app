@@ -5,29 +5,44 @@
 // APP
 var app = angular.module('weatherApp', []);
 
-app.controller('weatherController', [ '$http', '$scope', function($http, $scope) {
+app.controller('weatherController', ['$scope', '$window', function($scope, $window) {
+// INITIALIZE RESULTS
+  $scope.current = '';
+  $scope.hourly = '';
+  $scope.daily = '';
 
-  $scope.current = [];
-  $scope.hourly = [];
-  $scope.daily = [];
-    //current
-  $http.get('http://api.openweathermap.org/data/2.5/weather?id=4580543&APPID=831f9a0e76c47eb878b49f28785cd20b')
-  .success(function(response) {
+// CHECK FOR GEOLOCATION
+if ($window.navigator && $window.navigator.geolocation) {
+    $window.navigator.geolocation.getCurrentPosition(function(position) {
+      fetchData(position.coords.latitude, position.coords.longitude);
+      console.log(position);
+    }, function(error) {
+console.log('problem');
+      // document.getElementById('error') = "Geoocation may not be enabled on this device.  Please use the search bar above to find your location."
+  });
+}
+
+// WATCH FOR LOCATION SEARCH
+$scope.$watch('searchLocation', function(data) {
+  if (data) {
+      console.log(data.detail);
+  }
+});
+
+// Create call to factory for each OpenWeather API and assign results.
+function fetchData(lat, lon) {
+  weatherService.fetchWeather(lat, lon, 'weather')
+  .success(function(response){
     $scope.current = response;
-  })
-  // hourly
-  .then(
-  $http.get('http://api.openweathermap.org/data/2.5/forecast?id=4580543&APPID=831f9a0e76c47eb878b49f28785cd20b')
-  .success(function(response) {
+  }).then(weatherService.fetchWeather(lat, lon, 'forecast')
+  .success(function(response){
     $scope.hourly = response;
-
-  }))
-  // daily
-  .then(
-  $http.get('http://api.openweathermap.org/data/2.5/forecast/daily?id=4580543&APPID=831f9a0e76c47eb878b49f28785cd20b')
-  .success(function(response) {
+  })).then(weatherService.fetchWeather(lat, lon, 'forecast/daily')
+  .success(function(response){
     $scope.daily = response;
   }));
+}
+
 // Change the appearance of "Fahrenheit" and "Celsius" buttons when one is triggered so that the active scale is highlighted.
   $scope.switchToC = function () {
     document.getElementById("temp-far").className = "scale-type inactive";
@@ -38,41 +53,18 @@ app.controller('weatherController', [ '$http', '$scope', function($http, $scope)
     document.getElementById("temp-far").className = "scale-type active";
   };
 
-  ///////////////////////////////////////////////
-  ////////////// TEST ZONE /////////////////////
-
-$scope.position = {
-  lat: '',
-  lon: ''
-};
-
-$scope.$watch('position', function() {
-
-});
-
-///////////////////////////////////////////////
-  function setGeolocation() {
-    geolocationService.getGeolocation().then(
-      // If geolocation data returned
-      function(position) {
-        $scope.$apply(function() {
-          $scope.lat = position.coords.latitude;
-          $scope.lon = position.coords.longitude;
-        });
-      },
-        function(err) {
-
-      }
-    );
-  }
-
-  ///////////////////////////////////////////////
-  ///////////////////////////////////////////////
-
 }]);
 
-///////////////////////////////////////////////
-////////////// TEST ZONE /////////////////////
+app.factory('weatherService', ['$http', '$scope', function($http, $scope) {
+  
+  // function fetchWeather (lat, lon, dataType) {
+  //   $http.get('http://api.openweathermap.org/data/2.5/' + dataType + '?lat=' + lat + '&lon=' + lon + '&APPID=831f9a0e76c47eb878b49f28785cd20b')
+  //   .success(function(response) {
+  //     return response;
+  //   });
+  // }
+}]);
+
 app.directive('googleplace', function() {
     return {
         require: 'ngModel',
@@ -91,40 +83,12 @@ app.directive('googleplace', function() {
                 scope.$apply(function() {
                     scope.details = scope.searchLocation.getPlace();
                     model.$setViewValue(element.val());
-                    console.log(scope.details);
-                });
+                    scope.lat = scope.details.geometry.location.lat();
+                    scope.lon = scope.details.geometry.location.lng();             });
             });
         }
     };
 });
-
-//////////// ABOVE OK //////////////////////////
-app.factory('geolocationService', ['$q', '$window', function($q, $window) {
-  function getGeolocation() {
-    var deferred = $q.defer();
-
-    if (!$window.navigator.geolocation) {
-            deferred.reject('Geolocation not supported.');
-        } else {
-            $window.navigator.geolocation.getCurrentPosition(
-                function (position) {
-                    deferred.resolve(position);
-                },
-                function (err) {
-                    deferred.reject(err);
-                });
-        }
-
-        return deferred.promise;
-    }
-
-    return {
-        getCurrentPosition: getCurrentPosition
-    };
-}]);
-
-///////////////////////////////////////////////
-///////////////////////////////////////////////
 
 // Filter to convert given temperatures from Kelvin to Fahrenheit or Celsius; used with ng-show to switch between the two.
 app.filter('convertTemp', [function() {
