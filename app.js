@@ -5,36 +5,32 @@
 // APP
 var app = angular.module('weatherApp', []);
 
-app.controller('weatherController', ['$scope', '$window', function($scope, $window, weatherService) {
+app.controller('weatherController', ['$scope', '$window', 'weatherService', function($scope, $window, weatherService) {
 // INITIALIZE RESULTS
-  $scope.current = [];
-  $scope.hourly = [];
-  $scope.daily = [];
-  $scope.coords="";
+  $scope.current = {};
+  $scope.hourly = {};
+  $scope.daily = {};
+
+$scope.localWeather = function(lat, lon){
+        weatherService.setCoords(lat, lon); // REFRESH PAGE?
+};
 
 // CHECK FOR GEOLOCATION
 if ($window.navigator && $window.navigator.geolocation) {
     $window.navigator.geolocation.getCurrentPosition(function(position) {
-      $scope.coords = function() { // TODO
-      weatherService.setCoords(position.coords.latitude, position.coords.longitude);
-    };
-    console.log($scope.coords);
+      $scope.localWeather(position.coords.latitude, position.coords.longitude);
     }, function(error) {
 console.log('problem');
       // document.getElementById('error') = "Geoocation may not be enabled on this device.  Please use the search bar above to find your location."
   });
 }
 
-// Create call to factory for each OpenWeather API and assign results.
-function fetchData(lat, lon) {
-$scope.current = function(){ weatherService.fetchWeather(lat, lon, 'weather');
-};
-$scope.hourly = function(){ weatherService.fetchWeather(lat, lon, 'forecast');
-};
-$scope.daily = function(){ weatherService.fetchWeather(lat, lon, 'forecast');
-};
-console.log($scope.current);
-}
+$scope.$watch(function(){
+   return weatherService.setCoords();
+}, function(newValue, oldValue){
+    console.log(newValue + ' ' + oldValue);
+    console.log(weatherService.setCoords());
+});
 
 // Change the appearance of "Fahrenheit" and "Celsius" buttons when one is triggered so that the active scale is highlighted.
   $scope.switchToC = function () {
@@ -49,6 +45,7 @@ console.log($scope.current);
 }]);
 
 app.factory('weatherService', ['$http', '$q', function($http,$q) {
+
   var weatherData = {};
       // URL INGREDIENTS
   var baseUrl = 'http://api.openweathermap.org/data/2.5/',
@@ -60,19 +57,18 @@ app.factory('weatherService', ['$http', '$q', function($http,$q) {
       hourlyUrl = '',
       dailyUrl = '';
 
-  weatherData.setUrls = function() {
+  var setUrls = function() {
     currentUrl = baseUrl + 'weather' + coords + appId;
     hourlyUrl = baseUrl + 'forecast' + coords + appId;
     dailyUrl = baseUrl + 'forecast/daily' + coords + appId;
   };
 
-  weatherData.setCoords = function(lat, lon){
+  weatherData.setCoords = function (lat, lon) {
     coords = '?lat=' + lat + '&lon=' + lon;
-    return coords;
-  };
+    setUrls();
+};
 
   weatherData.fetchWeather = function () {
-    setUrls();
     return {
       loadDataFromUrls: function () {
         var urlList = [currentUrl, hourlyUrl, dailyUrl];
@@ -87,8 +83,7 @@ app.factory('weatherService', ['$http', '$q', function($http,$q) {
           data.forEach(function(val, i) {
             weatherList[urlList[i]] = val.data;
           });
-          //return weatherList;
-          console.log(weatherList);
+          return weatherList;
         });
       }
     };
