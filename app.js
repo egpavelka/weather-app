@@ -10,13 +10,15 @@ app.controller('weatherController', ['$scope', '$window', function($scope, $wind
   $scope.current = [];
   $scope.hourly = [];
   $scope.daily = [];
+  $scope.coords="";
 
 // CHECK FOR GEOLOCATION
 if ($window.navigator && $window.navigator.geolocation) {
     $window.navigator.geolocation.getCurrentPosition(function(position) {
-      function() { // TODO
+      $scope.coords = function() { // TODO
       weatherService.setCoords(position.coords.latitude, position.coords.longitude);
-    }
+    };
+    console.log($scope.coords);
     }, function(error) {
 console.log('problem');
       // document.getElementById('error') = "Geoocation may not be enabled on this device.  Please use the search bar above to find your location."
@@ -52,6 +54,7 @@ app.factory('weatherService', ['$http', '$q', function($http,$q) {
   var baseUrl = 'http://api.openweathermap.org/data/2.5/',
       coords = '',
       appId = '&APPID=831f9a0e76c47eb878b49f28785cd20b',
+
       // API URLS
       currentUrl = '',
       hourlyUrl = '',
@@ -65,7 +68,7 @@ app.factory('weatherService', ['$http', '$q', function($http,$q) {
 
   weatherData.setCoords = function(lat, lon){
     coords = '?lat=' + lat + '&lon=' + lon;
-    console.log(coords);
+    return coords;
   };
 
   weatherData.fetchWeather = function () {
