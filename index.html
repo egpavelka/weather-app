@@ -50,7 +50,8 @@
                     <div class="temp" ng-show="!celsius">{{ current.main.temp | convertTemp: 'f' }}</div>
                     <!-- celsius -->
                     <div class="temp" ng-show="celsius">{{ current.main.temp | convertTemp: 'c' }}</div>
-                    <div class="cond">{{ current.weather[0].description }}</div>
+                    <div class="cond">{{ current.weather[0].description }}
+                    {{ coords.lat }}</div>
                 </div>
 
                 <!-- hourly forecast -->

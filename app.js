@@ -5,31 +5,33 @@
 // APP
 var app = angular.module('weatherApp', []);
 
-app.controller('weatherController', ['$scope', '$window', 'weatherService', function($scope, $window, weatherService) {
-// INITIALIZE RESULTS
+app.controller('weatherController', ['$scope', '$window', 'geolocationService', 'weatherService', function($scope, $window, geolocationService, weatherService) {
+
+// INITIALIZE RESULTS OF API QUERIES
   $scope.current = {};
   $scope.hourly = {};
   $scope.daily = {};
 
-$scope.localWeather = function(lat, lon){
-        weatherService.setCoords(lat, lon); // REFRESH PAGE?
+// CHECK FOR GEOLOCATION IN BROWSER, INVOKE ON WINDOW LOAD
+$scope.geolocation = function(){
+        geolocationService.detectGeolocation()
+        .then(function(results){
+          $scope.coords.lat = results.lat;
+          $scope.coords.lon = results.lon;
+        });
+}();
+
+// STORE COORDINATES
+$scope.coords = {
+  lat : '',
+  lon: ''
 };
-
-// CHECK FOR GEOLOCATION
-if ($window.navigator && $window.navigator.geolocation) {
-    $window.navigator.geolocation.getCurrentPosition(function(position) {
-      $scope.localWeather(position.coords.latitude, position.coords.longitude);
-    }, function(error) {
-console.log('problem');
-      // document.getElementById('error') = "Geoocation may not be enabled on this device.  Please use the search bar above to find your location."
-  });
-}
-
+// TEST: make sure directive properly updates coords
 $scope.$watch(function(){
-   return weatherService.setCoords();
+   return $scope.coords;
 }, function(newValue, oldValue){
     console.log(newValue + ' ' + oldValue);
-    console.log(weatherService.setCoords());
+    console.log($scope.coords);
 });
 
 // Change the appearance of "Fahrenheit" and "Celsius" buttons when one is triggered so that the active scale is highlighted.
@@ -44,52 +46,74 @@ $scope.$watch(function(){
 
 }]);
 
-app.factory('weatherService', ['$http', '$q', function($http,$q) {
-
-  var weatherData = {};
-      // URL INGREDIENTS
-  var baseUrl = 'http://api.openweathermap.org/data/2.5/',
-      coords = '',
-      appId = '&APPID=831f9a0e76c47eb878b49f28785cd20b',
-
-      // API URLS
-      currentUrl = '',
-      hourlyUrl = '',
-      dailyUrl = '';
-
-  var setUrls = function() {
-    currentUrl = baseUrl + 'weather' + coords + appId;
-    hourlyUrl = baseUrl + 'forecast' + coords + appId;
-    dailyUrl = baseUrl + 'forecast/daily' + coords + appId;
-  };
-
-  weatherData.setCoords = function (lat, lon) {
-    coords = '?lat=' + lat + '&lon=' + lon;
-    setUrls();
-};
-
-  weatherData.fetchWeather = function () {
-    return {
-      loadDataFromUrls: function () {
-        var urlList = [currentUrl, hourlyUrl, dailyUrl];
-        return $q.all(urlList.map(function(single) {
-          return $http({
-            method: 'GET',
-            url: single
-          });
-        }))
-        .then(function(data) {
-          var weatherList = {};
-          data.forEach(function(val, i) {
-            weatherList[urlList[i]] = val.data;
-          });
-          return weatherList;
+app.factory('geolocationService', ['$q', '$window', function($q, $window) {
+  return {
+    detectGeolocation : function () {
+      var deferred = $q.defer();
+      var coords = {};
+      // CHECK FOR GEOLOCATION
+      if ($window.navigator && $window.navigator.geolocation) { $window.navigator.geolocation.getCurrentPosition( function (position) {
+            coords.lat = position.coords.latitude;
+            coords.lon = position.coords.longitude;
+            deferred.resolve(coords);
         });
       }
-    };
-  };
+      else {
+        deferred.reject({msg: "We can't find you."});
+      }
 
-  return weatherData;
+      return deferred.promise;
+    }
+  };
+}]);
+
+app.factory('weatherService', ['$http', '$q', function($http,$q) {
+return {
+
+urlParts : {
+  // PARTS
+  baseUrl : 'http://api.openweathermap.org/data/2.5/',
+  coords : '',
+  appId : '&APPID=831f9a0e76c47eb878b49f28785cd20b',
+  // BUILD FUNCTIONS
+  currentUrl : function() {
+    return baseUrl + 'weather' + coords + appId;
+  },
+  hourlyUrl : function() {
+    return baseUrl + 'forecast' + coords + appId;
+  },
+  dailyUrl : function() {
+    return baseUrl + 'forecast/daily' + coords + appId;
+  }
+},
+
+setCoords : function (lat, lon) {
+      coords = '?lat=' + lat + '&lon=' + lon;
+      setUrls();
+  },
+
+fetchWeather : function () {
+  return {
+    loadDataFromUrls: function () {
+      var urlList = [currentUrl, hourlyUrl, dailyUrl];
+      return $q.all(urlList.map(function(single) {
+        return $http({
+          method: 'GET',
+          url: single
+        });
+      }))
+      .then(function(data) {
+        var weatherList = {};
+        data.forEach(function(val, i) {
+          weatherList[urlList[i]] = val.data;
+        });
+        return weatherList;
+      });
+    }
+  };
+}
+
+};
 
 }]);
 
