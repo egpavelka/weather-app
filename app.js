@@ -5,7 +5,7 @@
 // APP
 var app = angular.module('weatherApp', []);
 
-app.controller('weatherController', ['$scope', '$window', 'geolocationService', 'weatherService', function($scope, $window, geolocationService, weatherService) {
+app.controller('weatherController', ['$scope', '$window', 'geolocationService', 'urlService', 'weatherService', function($scope, $window, geolocationService, urlService, weatherService) {
 
 // INITIALIZE RESULTS OF API QUERIES
   $scope.current = {};
@@ -16,17 +16,18 @@ app.controller('weatherController', ['$scope', '$window', 'geolocationService', 
 $scope.geolocation = function(){
         geolocationService.detectGeolocation()
         .then(function(results){
-          weatherService.setCoords(results.lat, results.lon);
+          $scope.fetchWeather(results.lat, results.lon);
         });
 }();
 
-// TEST: make sure directive properly updates coords
-$scope.$watch(function(){
-   return weatherService.setCoords();
-}, function(newValue, oldValue){
-    console.log(newValue + ' ' + oldValue);
-    console.log(weatherService.setCoords());
-});
+// GET WEATHER: send coordinates to build URLs, then make HTTP calls
+$scope.fetchWeather = function(lat, lon){
+        urlService.setLocation(lat, lon)
+        .then(function(results){
+          weatherService.fetchWeather(results);
+        });
+};
+
 
 // Change the appearance of "Fahrenheit" and "Celsius" buttons when one is triggered so that the active scale is highlighted.
   $scope.switchToC = function () {
@@ -64,7 +65,7 @@ app.factory('geolocationService', ['$q', '$window', function($q, $window) {
 }]);
 
 //// Enable Google location search with autocomplete
-app.directive('googleplace', ['weatherService', function(weatherService) {
+app.directive('googleplace', ['urlService', function(urlService) {
     return {
         require: 'ngModel',
         controller: 'weatherController',
@@ -84,7 +85,7 @@ app.directive('googleplace', ['weatherService', function(weatherService) {
                     scope.details = scope.searchLocation.getPlace();
                     model.$setViewValue(element.val());
                     // Send coordinates to factory
-                    weatherService.setCoords(
+                    scope.$parent.fetchWeather(
                       scope.details.geometry.location.lat(), scope.details.geometry.location.lng());
                   });
             });
@@ -93,68 +94,74 @@ app.directive('googleplace', ['weatherService', function(weatherService) {
 }]);
 
 // CHECK THE WEATHER
-app.factory('weatherService', ['$http', '$q', function($http,$q) {
+app.factory('urlService', ['$q', function($q) {
 
   // TEST: make sure coords are updating with directive
   var testCoords = function(test) {
       console.log(test);
   };
-  var testUrls = function() {
-      console.log(buildUrls());
-  };
 
   var coords = '';
 
-  var urlsList = {
-    current : '',
-    hourly: '',
-    daily: ''
-  };
-
-  var buildUrls = function() {
-    // Components for URLS
-    var baseUrl = 'api.openweathermap.org/data/2.5/',
-        appId = '&APPID=831f9a0e76c47eb878b49f28785cd20b',
-        parameters = ['weather', 'forecast', 'forecast/daily'],
-        listKeys = Object.keys(urlsList);
-    // Create for each forecast type parameter and store accordingly in urlsList
-    for (var i = 0; i < 3; i++) {
-      urlsList[listKeys[i]] = baseUrl + parameters[i] + coords + appId;
-    }
-    return urlsList;
-  };
+  var urlList = [];
 
 return {
-
-setCoords : function (lat, lon) {
+setLocation : function (lat, lon) {
+  // SET COORDINATES
       coords = '?lat=' + lat + '&lon=' + lon;
-      testCoords(coords);
-      testUrls();
-      // buildUrls();
-      return coords;
-  },
 
-fetchWeather : function () {
-  return {
-    loadDataFromUrls: function () {
-      return $q.all(urlsList.map(function(single) {
-        return $http({
-          method: 'GET',
-          url: single
-        });
-      }))
-      .then(function(data) {
-        var weatherList = {};
-        data.forEach(function(val, i) {
-          weatherList[urlsList[i]] = val.data;
-        });
-        return weatherList;
-      });
-    }
-  };
+  // BUILD URLS
+  // Components for URLS
+  var baseUrl = 'api.openweathermap.org/data/2.5/',
+      appId = '&APPID=831f9a0e76c47eb878b49f28785cd20b',
+      parameters = ['weather', 'forecast', 'forecast/daily'];
+
+      // Create for each forecast type parameter and store accordingly in urlList
+      var deferred = $q.defer();
+      for (var i = 0; i < 3; i++) {
+          urlList[i] = baseUrl + parameters[i] + coords + appId;
+      }
+      deferred.resolve(urlList);
+      return deferred.promise;
+
 }
 
 };
+
+}]);
+
+app.factory('weatherService', ['urlService', '$http', '$q', function(urlService, $http, $q){
+
+  var testFetch = function(test) {
+      console.log(test);
+  };
+
+  return {
+    fetchWeather : function (list) {
+      return $q.all(list.map(function(apiCall){
+        testFetch(apiCall);
+        return $http.get(apiCall, {timeout: 3000});
+      }))
+      .then(function(results){
+        testFetch(results);
+        // Set up results object and its keys
+        var weatherList = {
+          current: '',
+          hourly: '',
+          daily: ''
+        };
+        var dataKeys = Object.keys(weatherList);
+        // Send data to results object
+        for (var i=0; i < 3; i++) {
+          weatherList[dataKeys[i]] = results[i];
+        }
+        testFetch(weatherList);
+          return weatherList;
+      }, function(err){console.log(err);}
+    );
+    }
+  };
+
 
 }]);
 
