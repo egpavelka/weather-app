@@ -8,16 +8,31 @@
 
 - Rule #2: Fulfill the below user stories. Use whichever libraries or APIs you need. Give it your own personal style.
 
-- User Story: I can see the weather in my current location.
+- User Story 1: I can see the weather in my current location.
 
-- User Story: I can see a different icon or background image (e.g. snowy mountain, hot desert) depending on the weather.
+- User Story 2: I can see a different icon or background image (e.g. snowy mountain, hot desert) depending on the weather.
 
-- User Story: I can push a button to toggle between Fahrenheit and Celsius.
+- User Story 3: I can push a button to toggle between Fahrenheit and Celsius.
 
 
 _____________________________________________________________
 
 # CHANGELOG
+## [Unreleased] 2016.11.17
+### COMPLETED
+- Functioning weather app, at last. All FCC User Stories are fulfilled.
+- User can allow their browser to provide location information or search for anywhere in the world.  (Uses Place Autocomplete services from the Google Places API.)
+- Current weather and hourly forecasts display temperature, condition description, and condition icon.  Daily forecasts display condition icons and high/low temperatures.
+
+### IN PROGRESS
+- Get rid of the duplicate divs and use directive templates to switch between temperature scales.
+- Detect country in location lookup and automatically switch to the scale preferred in that location. (Currently, Fahrenheit )
+- Double-check that all icon and background codes have corresponding images and that the background images are suitable for white text.
+- Fix scrolling issues for various devices.  All information should be available in one screen; daily and hourly divs should have their own scroll, but bars must be invisible.  
+- Style the search field.
+- Maybe move the city name into the current display and make it larger.
+- Add a search icon/designation to the field.
+
 ## [Unreleased] 2016.10.19
 ### COMPLETED
 - Switch between Fahrenheit and Celsius.

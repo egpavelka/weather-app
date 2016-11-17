@@ -24,8 +24,18 @@ $scope.geolocation = function(){
 $scope.fetchWeather = function(lat, lon){
         urlService.setLocation(lat, lon)
         .then(function(results){
-          weatherService.fetchWeather(results);
+          $scope.updateWeather(results);
         });
+};
+
+// UPDATE VIEW: nested promise to update scopes with bindings
+$scope.updateWeather = function(results) {
+  weatherService.fetchWeather(results)
+  .then(function(data){
+    $scope.current = data.current.data;
+    $scope.hourly = data.hourly.data;
+    $scope.daily = data.daily.data;
+  });
 };
 
 
@@ -96,11 +106,6 @@ app.directive('googleplace', ['urlService', function(urlService) {
 // CHECK THE WEATHER
 app.factory('urlService', ['$q', function($q) {
 
-  // TEST: make sure coords are updating with directive
-  var testCoords = function(test) {
-      console.log(test);
-  };
-
   var coords = '';
 
   var urlList = [];
@@ -112,7 +117,7 @@ setLocation : function (lat, lon) {
 
   // BUILD URLS
   // Components for URLS
-  var baseUrl = 'api.openweathermap.org/data/2.5/',
+  var baseUrl = 'http://api.openweathermap.org/data/2.5/',
       appId = '&APPID=831f9a0e76c47eb878b49f28785cd20b',
       parameters = ['weather', 'forecast', 'forecast/daily'];
 
@@ -132,18 +137,12 @@ setLocation : function (lat, lon) {
 
 app.factory('weatherService', ['urlService', '$http', '$q', function(urlService, $http, $q){
 
-  var testFetch = function(test) {
-      console.log(test);
-  };
-
   return {
     fetchWeather : function (list) {
       return $q.all(list.map(function(apiCall){
-        testFetch(apiCall);
         return $http.get(apiCall, {timeout: 3000});
       }))
       .then(function(results){
-        testFetch(results);
         // Set up results object and its keys
         var weatherList = {
           current: '',
@@ -155,7 +154,6 @@ app.factory('weatherService', ['urlService', '$http', '$q', function(urlService,
         for (var i=0; i < 3; i++) {
           weatherList[dataKeys[i]] = results[i];
         }
-        testFetch(weatherList);
           return weatherList;
       }, function(err){console.log(err);}
     );
