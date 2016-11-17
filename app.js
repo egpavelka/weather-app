@@ -16,22 +16,16 @@ app.controller('weatherController', ['$scope', '$window', 'geolocationService', 
 $scope.geolocation = function(){
         geolocationService.detectGeolocation()
         .then(function(results){
-          $scope.coords.lat = results.lat;
-          $scope.coords.lon = results.lon;
+          weatherService.setCoords(results.lat, results.lon);
         });
 }();
 
-// STORE COORDINATES
-$scope.coords = {
-  lat : '',
-  lon: ''
-};
 // TEST: make sure directive properly updates coords
 $scope.$watch(function(){
-   return $scope.coords;
+   return weatherService.setCoords();
 }, function(newValue, oldValue){
     console.log(newValue + ' ' + oldValue);
-    console.log($scope.coords);
+    console.log(weatherService.setCoords());
 });
 
 // Change the appearance of "Fahrenheit" and "Celsius" buttons when one is triggered so that the active scale is highlighted.
@@ -46,6 +40,8 @@ $scope.$watch(function(){
 
 }]);
 
+// LOCATION, LOCATION, LOCATION
+//// Check for geolocation
 app.factory('geolocationService', ['$q', '$window', function($q, $window) {
   return {
     detectGeolocation : function () {
@@ -58,7 +54,7 @@ app.factory('geolocationService', ['$q', '$window', function($q, $window) {
             deferred.resolve(coords);
         });
       }
-      else {
+      else { //TODO obviously make this direct to appropriate page
         deferred.reject({msg: "We can't find you."});
       }
 
@@ -67,59 +63,11 @@ app.factory('geolocationService', ['$q', '$window', function($q, $window) {
   };
 }]);
 
-app.factory('weatherService', ['$http', '$q', function($http,$q) {
-return {
-
-urlParts : {
-  // PARTS
-  baseUrl : 'http://api.openweathermap.org/data/2.5/',
-  coords : '',
-  appId : '&APPID=831f9a0e76c47eb878b49f28785cd20b',
-  // BUILD FUNCTIONS
-  currentUrl : function() {
-    return baseUrl + 'weather' + coords + appId;
-  },
-  hourlyUrl : function() {
-    return baseUrl + 'forecast' + coords + appId;
-  },
-  dailyUrl : function() {
-    return baseUrl + 'forecast/daily' + coords + appId;
-  }
-},
-
-setCoords : function (lat, lon) {
-      coords = '?lat=' + lat + '&lon=' + lon;
-      setUrls();
-  },
-
-fetchWeather : function () {
-  return {
-    loadDataFromUrls: function () {
-      var urlList = [currentUrl, hourlyUrl, dailyUrl];
-      return $q.all(urlList.map(function(single) {
-        return $http({
-          method: 'GET',
-          url: single
-        });
-      }))
-      .then(function(data) {
-        var weatherList = {};
-        data.forEach(function(val, i) {
-          weatherList[urlList[i]] = val.data;
-        });
-        return weatherList;
-      });
-    }
-  };
-}
-
-};
-
-}]);
-
-app.directive('googleplace', function() {
+//// Enable Google location search with autocomplete
+app.directive('googleplace', ['weatherService', function(weatherService) {
     return {
         require: 'ngModel',
+        controller: 'weatherController',
         scope: {
             ngModel: '=',
             details: '=?'
@@ -135,12 +83,80 @@ app.directive('googleplace', function() {
                 scope.$apply(function() {
                     scope.details = scope.searchLocation.getPlace();
                     model.$setViewValue(element.val());
-                    scope.lat = scope.details.geometry.location.lat();
-                    scope.lon = scope.details.geometry.location.lng();             });
+                    // Send coordinates to factory
+                    weatherService.setCoords(
+                      scope.details.geometry.location.lat(), scope.details.geometry.location.lng());
+                  });
             });
         }
     };
-});
+}]);
+
+// CHECK THE WEATHER
+app.factory('weatherService', ['$http', '$q', function($http,$q) {
+
+  // TEST: make sure coords are updating with directive
+  var testCoords = function(test) {
+      console.log(test);
+  };
+  var testUrls = function() {
+      console.log(buildUrls());
+  };
+
+  var coords = '';
+
+  var urlsList = {
+    current : '',
+    hourly: '',
+    daily: ''
+  };
+
+  var buildUrls = function() {
+    // Components for URLS
+    var baseUrl = 'api.openweathermap.org/data/2.5/',
+        appId = '&APPID=831f9a0e76c47eb878b49f28785cd20b',
+        parameters = ['weather', 'forecast', 'forecast/daily'],
+        listKeys = Object.keys(urlsList);
+    // Create for each forecast type parameter and store accordingly in urlsList
+    for (var i = 0; i < 3; i++) {
+      urlsList[listKeys[i]] = baseUrl + parameters[i] + coords + appId;
+    }
+    return urlsList;
+  };
+
+return {
+
+setCoords : function (lat, lon) {
+      coords = '?lat=' + lat + '&lon=' + lon;
+      testCoords(coords);
+      testUrls();
+      // buildUrls();
+      return coords;
+  },
+
+fetchWeather : function () {
+  return {
+    loadDataFromUrls: function () {
+      return $q.all(urlsList.map(function(single) {
+        return $http({
+          method: 'GET',
+          url: single
+        });
+      }))
+      .then(function(data) {
+        var weatherList = {};
+        data.forEach(function(val, i) {
+          weatherList[urlsList[i]] = val.data;
+        });
+        return weatherList;
+      });
+    }
+  };
+}
+
+};
+
+}]);
 
 // Filter to convert given temperatures from Kelvin to Fahrenheit or Celsius; used with ng-show to switch between the two.
 app.filter('convertTemp', [function() {
