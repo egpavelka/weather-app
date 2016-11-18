@@ -1,18 +1,21 @@
 .current {
   @extend %flex-v;
+  .city-name {
+    @extend %bottom-line;
+    @extend %align-self-stretch;
+    @extend %upper;
+    font-size: 1.125rem;
+  }
     .icon {
         img {
-            height: 100px;
-            width: 100px;
+            height: 90px;
         }
     }
 
     .temp {
         font-size: 3rem;
     }
-
     .cond {
-        padding-top: 10px;
-
+      font-size: 1rem;
     }
 }

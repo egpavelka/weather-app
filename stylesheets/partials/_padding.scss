@@ -15,18 +15,22 @@
 }
 
 // VERTICAL - type
-.temp, .cond {
-  padding-top: 5px;
-}
-.time {
-  padding-bottom: 5px;
+.hourly {
+  .time {
+    padding-bottom: 5px;
+  }
+  .temp, .cond {
+    padding-top: 5px;
+  }
 }
 
 .current {
+  .icon {
+    padding-top: 30px;
+  }
   .temp {
-    padding-top: 25px;
+    padding-left: 10px;
+    font-weight: 300;
   }
-  .cond {
-    padding-top: 15px;
-  }
+
 }

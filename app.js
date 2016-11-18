@@ -19,6 +19,7 @@ $scope.geolocation = function(){
           $scope.fetchWeather(results.lat, results.lon);
         });
 }();
+//
 
 // GET WEATHER: send coordinates to build URLs, then make HTTP calls
 $scope.fetchWeather = function(lat, lon){
@@ -35,6 +36,7 @@ $scope.updateWeather = function(results) {
     $scope.current = data.current.data;
     $scope.hourly = data.hourly.data;
     $scope.daily = data.daily.data;
+    console.log($scope.daily);
   });
 };
 
@@ -60,6 +62,7 @@ app.factory('geolocationService', ['$q', '$window', function($q, $window) {
       var coords = {};
       // CHECK FOR GEOLOCATION
       if ($window.navigator && $window.navigator.geolocation) { $window.navigator.geolocation.getCurrentPosition( function (position) {
+        console.log(position);
             coords.lat = position.coords.latitude;
             coords.lon = position.coords.longitude;
             deferred.resolve(coords);

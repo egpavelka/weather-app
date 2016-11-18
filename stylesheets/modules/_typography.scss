@@ -1,13 +1,28 @@
-@import url('https://fonts.googleapis.com/css?family=Lato|Noto+Serif:400i');
+@import url('https://fonts.googleapis.com/css?family=Catamaran:200,300,400|Merriweather:400i');
 
 body {
-  font-family: 'Lato', sans serif;
+  font-family: 'Catamaran', sans-serif;
   text-align: center;
   color: white;
+  font-size: 18px;
   }
 
-  .cond {
-    font-family: 'Noto Serif', serif;
+  %upper {
+    text-transform: uppercase;
+    letter-spacing: .2rem;
+  }
+
+  .cond, %cond {
+    font-family: 'Merriweather', serif;
     font-style: italic;
-    text-transform: capitalize;;
+    text-transform: capitalize;
+    font-size: .85rem;
+  }
+
+  .day {
+    @extend %upper;
+    font-size: .875rem;
+  }
+  .temp {
+    font-size: 1.2rem;
   }

@@ -4,12 +4,6 @@
     @extend %flex-h;
     @extend %bottom-line;
     padding: 10px;
-    .day {
-        text-transform: uppercase;
-                font-size: .875rem;
-                letter-spacing: .1rem;
-    }
-
     .temp {
         .high {
             padding-right: 10px;
@@ -42,21 +36,11 @@
         .icon {
           padding: 10px 0;
             img {
-                height: 30px;
-                width: 30px;
+                width: 35px;
             }
         }
-
-        .temp {
-          //
-        }
-
-        .cond {
-          font-size: .75rem;
-        }
-
         .time {
-            font-size: .875rem;
+            font-size: 1rem;
         }
 
       }

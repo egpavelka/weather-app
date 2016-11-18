@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <title>egpavelka || weather</title>
-    <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="stylesheets/styles.min.css">
     <!-- SCRIPTS -->
     <script src="angular.min.js"></script>
@@ -14,44 +13,38 @@
 
 <body ng-controller="weatherController" ng-style="{'background-image':'url(img/'+current.weather[0].icon+'.jpg)'}">
 
-    <!-- navigation -->
+    <!-- NAVIGATION BAR -->
 
-    <div class="navigation-menu">
-        <div class="error-message">
-            Geolocation is not enabled in this browser. Please enter a location to continue.
-
+    <div class="navigation-bar">
+        <div class="location">
+                <span class="detect-location-icon"><img src="icon/detect.png" ng-click="geolocation()" title="Use current location"/></span>
+                <span class="city-search">
+                  <input ng-model="chosenPlace" details="chosenPlaceDetails" googleplace/>
+                </span>
+        </div>
+        <div class="scale">
+            <span class="scale-type active" id="temp-far" ng-click="celsius = false; switchToF()">fahrenheit</span>
+            <span class="scale-type inactive" id="temp-cel" ng-click="celsius = true; switchToC()">celsius</span>
         </div>
     </div>
 
+<!-- DISPLAY WEATHER -->
     <div id="container" class="container">
-
-        <div class="navigation-bar">
-            <div class="location">
-                    <span class="city-name cond">{{ current.name }}</span>
-                    <span class="city-search">
-                      <input ng-model="chosenPlace" details="chosenPlaceDetails" googleplace/>
-                    </span>
-            </div>
-            <div class="scale">
-                <span class="scale-type active" id="temp-far" ng-click="celsius = false; switchToF()">fahrenheit</span>
-                <span class="scale-type inactive" id="temp-cel" ng-click="celsius = true; switchToC()">celsius</span>
-            </div>
-        </div>
-
-        <div id="scroll-container" class="scroll-container">
-
             <div id="inner-container" class="container inner">
 
                 <!-- current conditions -->
                 <div class="current">
-                    <div class="icon"><img ng-src="icon/{{ current.weather[0].icon }}.png" />
-                    </div>
+                  <div class = "city-name">
+                    {{ current.name }}
+                  </div>
+                  <div class="icon"><img ng-src="icon/{{ current.weather[0].icon }}.png" />
+                  </div>
                     <!-- fahrenheit -->
                     <div class="temp" ng-show="!celsius">{{ current.main.temp | convertTemp: 'f' }}</div>
                     <!-- celsius -->
                     <div class="temp" ng-show="celsius">{{ current.main.temp | convertTemp: 'c' }}</div>
-                    <div class="cond">{{ current.weather[0].description }}
-                    {{ coords.lat }}</div>
+                    <div class="cond">{{ current.weather[0].description }}</div>
+
                 </div>
 
                 <!-- hourly forecast -->
@@ -104,8 +97,6 @@
                 </div>
 
             </div>
-
-        </div>
 
     </div>
 

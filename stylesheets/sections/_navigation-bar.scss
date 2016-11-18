@@ -7,10 +7,18 @@
 
   .location {
     float: left;
+    .detect-location-icon img{
+      width: 20px;
+      &:hover {
+        cursor: pointer;
+      }
+    }
     .city-search {
       padding-left: 15px;
       input {
-        padding: 3px 5px;
+        @extend %cond;
+        color: white;
+        padding: 6px 10px;
         border-radius: 5px;
         background-color: rgba($grey, .3);
         border: 1px solid $dkgrey;
@@ -20,9 +28,8 @@
 
   .scale {
     float: right;
-    text-transform: uppercase;
+    @extend %upper;
     font-size: .625rem;
-    letter-spacing: .1rem;
     .scale-type {
       &:first-child {
         margin-right: 10px;
