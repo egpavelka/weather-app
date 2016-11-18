@@ -23,8 +23,8 @@
                 </span>
         </div>
         <div class="scale">
-            <span class="scale-type active" id="temp-far" ng-click="celsius = false; switchToF()">fahrenheit</span>
-            <span class="scale-type inactive" id="temp-cel" ng-click="celsius = true; switchToC()">celsius</span>
+            <span class="scale-type active" id="temp-far" ng-click="switchToF()">fahrenheit</span>
+            <span class="scale-type inactive" id="temp-cel" ng-click="switchToC()">celsius</span>
         </div>
     </div>
 
@@ -100,6 +100,15 @@
 
     </div>
 
+<!-- DISPLAY ERRORS -->
+  <div class="error loading">
+    <div class="err-header">
+      Loading...
+    </div>
+    <div class="err-text">
+
+    </div>
+  </div>
 </body>
 
 </html>
