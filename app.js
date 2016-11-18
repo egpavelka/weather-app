@@ -17,7 +17,7 @@
                 .then(function(results) {
                     $scope.fetchWeather(results.lat, results.lon);
                 });
-        }();
+        };
         //
 
         // GET WEATHER: send coordinates to build URLs, then make HTTP calls
@@ -35,7 +35,7 @@
                     $scope.current = data.current.data;
                     $scope.hourly = data.hourly.data;
                     $scope.daily = data.daily.data;
-                    console.log($scope.current.sys.country);
+                    console.log($scope.current);
                     $scope.detectScale();
                 });
         };

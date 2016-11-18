@@ -4,11 +4,11 @@
   background-color: rgba($dkgrey, .7);
   width: 100vw;
   padding: 10px 25px;
+  @extend %flex-h;
 
   .location {
-    float: left;
     .detect-location-icon img{
-      width: 20px;
+      width: 30px;
       &:hover {
         cursor: pointer;
       }
@@ -27,7 +27,6 @@
   }
 
   .scale {
-    float: right;
     @extend %upper;
     font-size: .625rem;
     .scale-type {
