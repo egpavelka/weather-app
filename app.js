@@ -41,6 +41,8 @@
         };
 
 // TEMPERATURE SCALE FUNCTIONS
+// Default to Fahrenheit
+$scope.scale = 'f';
 // Autoset the scale to the one preferred by the selected location's country.
   $scope.detectScale = function(scale){
       var fahrCountries = ['BS', 'BZ', 'KY', 'PW', 'US', 'PR', 'GU', 'VI'];
@@ -188,15 +190,15 @@
   // Filter to convert given temperatures from Kelvin to Fahrenheit or Celsius; used with ng-show to switch between the two.
     app.filter('convertTemp', [function() {
 
-        return function(temp) {
+        return function(temp,scale) {
             var convertedTemp;
 
-            if ($scope.scale === 'c') {
+            if (scale === 'c') {
                 var c = temp - 273.15;
                 convertedTemp = Math.round(c);
             }
 
-            if ($scope.scale === 'f') {
+            if (scale === 'f') {
                 var f = (temp * 9) / 5 - 459.67;
                 convertedTemp = Math.round(f);
             }

@@ -39,10 +39,7 @@
                   </div>
                   <div class="icon"><img ng-src="icon/{{ current.weather[0].icon }}.png" />
                   </div>
-                    <!-- fahrenheit -->
-                    <div class="temp" ng-show="!celsius">{{ current.main.temp | convertTemp: 'f' }}</div>
-                    <!-- celsius -->
-                    <div class="temp" ng-show="celsius">{{ current.main.temp | convertTemp: 'c' }}</div>
+                    <div class="temp">{{ current.main.temp | convertTemp: scale }}</div>
                     <div class="cond">{{ current.weather[0].description }}</div>
 
                 </div>
@@ -53,12 +50,8 @@
                     <div class="day-overview">
                         <div class="day">{{ daily.list[0].dt*1000 | date: 'EEEE, MMMM dd' }}</div>
                         <div class="temp">
-                            <!-- fahrenheit -->
-                            <span class="high" ng-show="!celsius">{{ daily.list[0].temp.max | convertTemp: 'f' }}</span>
-                            <span class="low" ng-show="!celsius">{{ daily.list[0].temp.min | convertTemp: 'f' }}</span>
-                            <!-- celsius -->
-                            <span class="high" ng-show="celsius">{{ daily.list[0].temp.max  | convertTemp: 'c'}}</span>
-                            <span class="low" ng-show="celsius">{{ daily.list[0].temp.min | convertTemp: 'c' }}</span>
+                            <span class="high">{{ daily.list[0].temp.max | convertTemp: scale }}</span>
+                            <span class="low">{{ daily.list[0].temp.min | convertTemp: scale }}</span>
                         </div>
                     </div>
 
@@ -66,10 +59,7 @@
                         <div class="list-entry" ng-repeat="hour in hourly.list | limitTo:6">
                             <div class="time">{{ hour.dt*1000 | date: 'h a'}}</div>
                             <div class="icon"><img ng-src="icon/{{ hour.weather[0].icon }}.png" /></div>
-                            <!-- fahrenheit -->
-                            <div class="temp" ng-show="!celsius">{{ hour.main.temp | convertTemp: 'f' }}</div>
-                            <!-- celsius -->
-                            <div class="temp" ng-show="celsius">{{ hour.main.temp | convertTemp: 'c' }}</div>
+                            <div class="temp">{{ hour.main.temp | convertTemp: scale }}</div>
                             <div class="cond">{{ hour.weather[0].description }}</div>
                         </div>
 
@@ -85,12 +75,8 @@
                             </div>
                             <div class="icon"><img ng-src="icon/{{ day.weather[0].icon }}.png" /></div>
                             <div class="temp">
-                                <!-- fahrenheit -->
-                                <span class="high" ng-show="!celsius">{{ day.temp.max | convertTemp: 'f' }}</span>
-                                <span class="low" ng-show="!celsius">{{ day.temp.min | convertTemp: 'f' }}</span>
-                                <!-- celsius -->
-                                <span class="high" ng-show="celsius">{{ day.temp.max | convertTemp: 'c' }}</span>
-                                <span class="low" ng-show="celsius">{{ day.temp.min | convertTemp: 'c' }}</span>
+                                <span class="high">{{ day.temp.max | convertTemp: scale }}</span>
+                                <span class="low">{{ day.temp.min | convertTemp: scale }}</span>
                             </div>
                         </div>
                     </div>
