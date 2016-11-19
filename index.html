@@ -6,8 +6,13 @@
     	<meta http-equiv="X-UA-Compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     <title>e.g. pavelka || weather</title>
+    <!-- STYLES -->
+    <!-- bootstrap -->
+        <link rel="stylesheet" href="stylesheets/ui-bootstrap-custom-2.2.0-csp.css">
+    <!-- Local style -->
     <link rel="stylesheet" type="text/css" href="stylesheets/styles.min.css">
     <!-- SCRIPTS -->
+    <!-- Google Analytics -->
     <script>
 		(function(i, s, o, g, r, a, m) {
 			i['GoogleAnalyticsObject'] = r;
@@ -24,10 +29,18 @@
 		ga('create', 'UA-42646629-2', 'auto');
 		ga('send', 'pageview');
 	</script>
-
-    <script src="angular.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAH_JegEmVYDzTPCNhqp2au7vt5GbZ_DTY&libraries=places"></script>
-    <script src="app.js"></script>
+<!-- jQuery -->
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<!-- Angular -->
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-touch/angular-touch.min.js"></script>
+  <script src="bower_components/angular-animate/angular-animate.js"></script>
+  <script src="scripts/ui-bootstrap-custom-2.2.0.js"></script>
+  <script src="scripts/ui-bootstrap-custom-tpls-2.2.0.js"></script>
+  <!-- Google Maps -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAH_JegEmVYDzTPCNhqp2au7vt5GbZ_DTY&libraries=places"></script>
+  <!-- This app -->
+  <script src="app.js"></script>
 </head>
 
 <body ng-controller="weatherController" ng-init="geolocation()" ng-style="{'background-image':'url(img/'+current.weather[0].icon+'.jpg)'}">
@@ -64,7 +77,7 @@
                 </div>
 
                 <!-- hourly forecast -->
-                <div class="hourly">
+                <div class="hourly" ng-controller="hourlyCarouselCtrl">
 
                     <div class="day-overview">
                         <div class="day">{{ daily.list[0].dt*1000 | date: 'EEEE, MMMM dd' }}</div>
@@ -74,15 +87,32 @@
                         </div>
                     </div>
 
-                    <div class="list">
-                        <div class="list-entry" ng-repeat="hour in hourly.list | limitTo:6">
-                            <div class="time">{{ hour.dt*1000 | date: 'h a'}}</div>
-                            <div class="icon"><img ng-src="icon/{{ hour.weather[0].icon }}.png" /></div>
-                            <div class="temp">{{ hour.main.temp | convertTemp: scale }}</div>
-                            <div class="cond">{{ hour.weather[0].description }}</div>
-                        </div>
-
-                    </div>
+<div uib-carousel active="active" class="carousel list">
+  <!-- Container slide: contains 3 forecasts -->
+  <div uib-slide ng-repeat="hour in hourly.list | limitTo:9">
+<!-- First slide item -->
+    <div class="list-entry">
+      <div class="time">{{ hour.dt*1000 | date: 'h a'}}</div>
+      <div class="icon"><img ng-src="icon/{{ hour.weather[0].icon }}.png" /></div>
+      <div class="temp">{{ hour.main.temp | convertTemp: scale }}</div>
+      <div class="cond">{{ hour.weather[0].description }}</div>
+  </div>
+  <!-- Second slide item -->
+      <div class="list-entry">
+        <div class="time">{{ hour[$index+1].dt*1000 | date: 'h a'}}</div>
+        <div class="icon"><img ng-src="icon/{{ hour[$index+1].weather[0].icon }}.png" /></div>
+        <div class="temp">{{ hour[$index+1].main.temp | convertTemp: scale }}</div>
+        <div class="cond">{{ hour[$index+1].weather[0].description }}</div>
+    </div>
+    <!-- Third slide item -->
+        <div class="list-entry">
+          <div class="time">{{ hour[$index+2].dt*1000 | date: 'h a'}}</div>
+          <div class="icon"><img ng-src="icon/{{ hour[$index+2].weather[0].icon }}.png" /></div>
+          <div class="temp">{{ hour[$index+2].main.temp | convertTemp: scale }}</div>
+          <div class="cond">{{ hour[$index+2].weather[0].description }}</div>
+      </div>
+  </div>
+</div>
                 </div>
 
                 <!-- 5-day forecast -->
