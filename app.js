@@ -2,7 +2,7 @@
     'use strict';
 
     // APP
-    var app = angular.module('weatherApp', []);
+    var app = angular.module('weatherApp', ['ui.bootstrap']);
 
     app.controller('weatherController', ['$scope', '$window', 'geolocationService', 'urlService', 'weatherService', function($scope, $window, geolocationService, urlService, weatherService) {
 
@@ -207,13 +207,11 @@ $scope.scale = 'f';
 
 })();
 
-/*
-PUT THIS IN googleplace
-// Display the city from Google's API instead of OpenWeather's--there's a weird discrepancy between the two.
-        for (var i = 0; i < locData.length; i++) {
-          if (locData[i].types[0] === 'locality') {
-          var city = locData[i].long_name;
-            // TODO send it to a scope...somewhere
-          }
-        }
-*/
+app.controller('hourlyCarouselCtrl', ['$scope', 'ngTouch', function($scope, ngTouch){
+  $scope.active = 0;
+  var slides = $scope.slides = [];
+
+  $scope.addSlides = function
+
+
+}]);
