@@ -8,7 +8,8 @@
 
   .location {
     .detect-location-icon img{
-      width: 30px;
+      width: 23px;
+      margin-bottom: -7px;
       &:hover {
         cursor: pointer;
       }
@@ -19,7 +20,7 @@
         @extend %cond;
         color: white;
         padding: 6px 10px;
-        border-radius: 5px;
+        border-radius: 10px;
         background-color: rgba($grey, .3);
         border: 1px solid $dkgrey;
       }

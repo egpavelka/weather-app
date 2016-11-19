@@ -184,7 +184,7 @@ body {
 }
 
 .current {
-  padding-bottom: 50px;
+  padding-bottom: 35px;
 }
 
 .day-overview, .list-entry {
@@ -333,7 +333,8 @@ body {
 }
 
 .navigation-bar .location .detect-location-icon img {
-  width: 30px;
+  width: 23px;
+  margin-bottom: -7px;
 }
 
 .navigation-bar .location .detect-location-icon img:hover {
@@ -347,7 +348,7 @@ body {
 .navigation-bar .location .city-search input {
   color: white;
   padding: 6px 10px;
-  border-radius: 5px;
+  border-radius: 10px;
   background-color: rgba(170, 170, 170, 0.3);
   border: 1px solid #444;
 }

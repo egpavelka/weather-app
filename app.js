@@ -35,7 +35,6 @@
                     $scope.current = data.current.data;
                     $scope.hourly = data.hourly.data;
                     $scope.daily = data.daily.data;
-                    console.log($scope.current);
                     $scope.detectScale();
                 });
         };
