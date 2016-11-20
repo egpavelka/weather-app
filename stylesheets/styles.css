@@ -7747,7 +7747,7 @@ button.close {
 /*
     Display
  */
-.hourly .day-overview, .hourly .list, .daily .list .list-entry, .navigation-bar, .current {
+.hourly .day-overview, .daily .list .list-entry, .navigation-bar, .current {
   display: -webkit-box;
   display: -moz-box;
   display: -webkit-flexbox;
@@ -7759,7 +7759,7 @@ button.close {
 /*
     Flex direction
  */
-.hourly .day-overview, .hourly .list, .daily .list .list-entry, .navigation-bar {
+.hourly .day-overview, .daily .list .list-entry, .navigation-bar {
   -webkit-box-orient: horizontal;
   -moz-box-orient: horizontal;
   -webkit-flex-direction: row;
@@ -7780,7 +7780,7 @@ button.close {
 /*
     Flex wrap
  */
-.hourly .day-overview, .hourly .list, .daily .list .list-entry, .navigation-bar, .current {
+.hourly .day-overview, .daily .list .list-entry, .navigation-bar, .current {
   -webkit-flex-wrap: nowrap;
   -moz-flex-wrap: nowrap;
   -ms-flex-wrap: none;
@@ -7808,7 +7808,7 @@ button.close {
 /*
     Justify content
  */
-.hourly .day-overview, .hourly .list, .daily .list .list-entry, .navigation-bar {
+.hourly .day-overview, .daily .list .list-entry, .navigation-bar {
   -webkit-box-pack: justify;
   -moz-box-pack: justify;
   -webkit-flex-pack: justify;
@@ -7821,7 +7821,7 @@ button.close {
 /*
     Align items
  */
-.hourly .day-overview, .hourly .list, .daily .list .list-entry, .navigation-bar, .current {
+.hourly .day-overview, .daily .list .list-entry, .navigation-bar, .current {
   -webkit-box-align: center;
   -ms-flex-align: center;
   -webkit-align-items: center;
@@ -7842,7 +7842,7 @@ button.close {
 /*
     Align content
  */
-.hourly .day-overview, .hourly .list, .daily .list .list-entry, .navigation-bar {
+.hourly .day-overview, .daily .list .list-entry, .navigation-bar {
   -ms-flex-line-pack: center;
   -webkit-align-content: center;
   -moz-align-content: center;
@@ -7988,15 +7988,9 @@ body {
   color: #aaa;
 }
 
-.hourly .list {
-  padding: 10px;
-  overflow: hidden;
-}
-
 .hourly .list .list-entry {
   width: 100px;
   margin: auto 20px;
-  flex-shrink: 0;
 }
 
 .hourly .list .list-entry:first-child {

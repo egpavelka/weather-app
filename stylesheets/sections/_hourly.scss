@@ -16,15 +16,11 @@
   }
 
     .list {
-      @extend %flex-h;
       @extend %bottom-line;
-      padding: 10px;
-      overflow: hidden;
 
       .list-entry {
         width: 100px;
         margin: auto 20px;
-        flex-shrink: 0;
 
         &:first-child {
           margin-left: 0;

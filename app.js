@@ -2,7 +2,7 @@
     'use strict';
 
     // APP
-    var app = angular.module('weatherApp', ['ui.bootstrap']);
+    var app = angular.module('weatherApp', ['angular-carousel']);
 
     app.controller('weatherController', ['$scope', '$window', 'geolocationService', 'urlService', 'weatherService', function($scope, $window, geolocationService, urlService, weatherService) {
 
@@ -10,6 +10,8 @@
         $scope.current = {};
         $scope.hourly = {};
         $scope.daily = {};
+        // INITIALIZE HOURLY DATA CAROUSEL
+        $scope.hourlySlides = [];
 
         // CHECK FOR GEOLOCATION IN BROWSER, INVOKE ON WINDOW LOAD
         $scope.geolocation = function() {
@@ -33,11 +35,47 @@
             weatherService.fetchWeather(results)
                 .then(function(data) {
                     $scope.current = data.current.data;
-                    $scope.hourly = data.hourly.data;
-                    $scope.daily = data.daily.data;
+                    $scope.hourly = data.hourly.data.list;
+                    console.log($scope.hourly);
+                    $scope.daily = data.daily.data.list;
+                    // Set temperature scale
                     $scope.detectScale();
                 });
         };
+
+// HOURLY CAROUSEL
+var view = angular.element($window);
+view.bind('resize', function() {
+  console.log('start');
+    var width = view.width();
+    if ($scope.hourly !== {}) {
+      if(width > 900) {
+         // desktop
+         rebuildSlide(6);
+      } else if(width <= 900 && width > 480) {
+         // tablet
+         rebuildSlide(4);
+      } else {
+         // phone
+         rebuildSlide(3);
+      }
+    }
+      // don't forget manually trigger $digest()
+       $scope.$digest();
+});
+function rebuildSlide(n) {
+    var hourlySlides = [],
+        slide = [];
+    for(var i = 0; i < 12; i++) {
+        if(slide.length === n) {
+            hourlySlides.push(slide);
+            slide = [];
+        }
+        slide.push($scope.hourly[i]);
+    }
+    hourlySlides.push(slide);
+    $scope.hourlySlides = hourlySlides;
+}
 
 // TEMPERATURE SCALE FUNCTIONS
 // Default to Fahrenheit
@@ -206,12 +244,3 @@ $scope.scale = 'f';
     }]);
 
 })();
-
-app.controller('hourlyCarouselCtrl', ['$scope', 'ngTouch', function($scope, ngTouch){
-  $scope.active = 0;
-  var slides = $scope.slides = [];
-
-  $scope.addSlides = function
-
-
-}]);
