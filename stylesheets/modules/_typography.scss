@@ -1,28 +1,29 @@
 @import url('https://fonts.googleapis.com/css?family=Catamaran:200,300,400|Merriweather:400i');
 
 body {
+  color: white;
   font-family: 'Catamaran', sans-serif;
   text-align: center;
-  color: white;
   }
 
-  %upper {
-    text-transform: uppercase;
-    letter-spacing: .2rem;
-  }
+%upper {
+  letter-spacing: .2rem;
+  text-transform: uppercase;
+}
 
-  .cond, %cond {
-    font-family: 'Merriweather', serif;
-    font-style: italic;
-    text-transform: capitalize;
-    font-size: 1rem;
-  }
+.cond,
+%cond {
+  font-family: 'Merriweather', serif;
+  font-size: 1.25rem;
+  font-style: italic;
+  text-transform: capitalize;
+}
 
-  .day {
-    @extend %upper;
-    font-size: 1.25rem;
-  }
+.day {
+  @extend %upper;
+  font-size: 1.25rem;
+}
 
 .temp {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   }

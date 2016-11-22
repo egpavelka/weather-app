@@ -4,42 +4,44 @@
     @extend %flex-h;
     @extend %bottom-line;
     padding: 10px;
-    .temp {
-        .high {
-            padding-right: 10px;
-        }
 
-        .low {
-            color: $grey;
-        }
+    .high {
+      padding-right: 10px;
+    }
+
+    .low {
+      color: $grey;
     }
   }
 
-    .list {
-      @extend %bottom-line;
+  .list {
+    @extend %bottom-line;
+    padding-bottom: 10px;
+    padding-top: 10px;
 
-      .list-entry {
-        width: 100px;
-        margin: auto 20px;
-
-        &:first-child {
-          margin-left: 0;
-        }
-        &:last-child {
-          margin-right: 0;
-        }
-
-        .icon {
-          padding: 10px 0;
-            img {
-                width: 35px;
-            }
-        }
-        .time {
-            font-size: 1rem;
-        }
-
-      }
-
+    ul {
+      height: 127px;
+      margin: 5px auto;
     }
+  }
+
+  .list-entry {
+    display: inline-block;
+    margin: auto 20px;
+    width: 100px;
+
+    .icon {
+      padding: 10px 0;
+
+      img {
+        height: 35px;
+      }
+    }
+
+    .time {
+      font-size: 1.5rem;
+    }
+
+  }
+
 }

@@ -4,7 +4,7 @@
     // APP
     var app = angular.module('weatherApp', ['angular-carousel']);
 
-    app.controller('weatherController', ['$scope', '$window', 'geolocationService', 'urlService', 'weatherService', function($scope, $window, geolocationService, urlService, weatherService) {
+    app.controller('weatherController', ['$scope', '$window', '$timeout', 'geolocationService', 'urlService', 'weatherService', function($scope, $window, $timeout, geolocationService, urlService, weatherService) {
 
         // INITIALIZE RESULTS OF API QUERIES
         $scope.current = {};
@@ -12,6 +12,8 @@
         $scope.daily = {};
         // INITIALIZE HOURLY DATA CAROUSEL
         $scope.hourlySlides = [];
+        // INITIALIZE CONTAINER WIDTH
+        $scope.contentWidth = 'auto';
 
         // CHECK FOR GEOLOCATION IN BROWSER, INVOKE ON WINDOW LOAD
         $scope.geolocation = function() {
@@ -39,29 +41,40 @@
                     $scope.daily = data.daily.data.list;
                     // Set temperature scale
                     $scope.detectScale();
+                    $timeout($scope.detectWindowSize(), 3000);
                 });
         };
 
 // HOURLY CAROUSEL
 var view = angular.element($window);
-view.bind('resize', function() {
-  console.log('start');
+view.bind('resize', $scope.detectWindowSize);
+
+$scope.detectWindowSize = function() {
+  var container = document.getElementById('content-container');
     var width = view.width();
     if ($scope.hourly !== {}) {
-      if(width > 900) {
+      if(width >= 900) {
          // desktop
+         $scope.contentWidth = '870px';
          rebuildSlide(6);
-      } else if(width <= 900 && width > 480) {
+      } else if(width < 900 && width >= 610) {
          // tablet
+         $scope.contentWidth = '590px';
          rebuildSlide(4);
-      } else {
-         // phone
+      } else if(width < 610 && width >= 480) {
+         // large phone
+         $scope.contentWidth = '450px';
          rebuildSlide(3);
+      }
+      else {
+         // small phone
+         $scope.contentWidth = '310px';
+         rebuildSlide(2);
       }
     }
       // don't forget manually trigger $digest()
-       $scope.$digest();
-});
+};
+
 function rebuildSlide(n) {
     var hourlySlides = [],
         slide = [];
@@ -74,6 +87,7 @@ function rebuildSlide(n) {
     }
     hourlySlides.push(slide);
     $scope.hourlySlides = hourlySlides;
+    console.log(hourlySlides);
 }
 
 // TEMPERATURE SCALE FUNCTIONS
@@ -87,6 +101,7 @@ $scope.scaleOptions = [{
   val: 'c'
 }];
 $scope.scale = $scope.scaleOptions[0].val;
+
 // Autoset the scale to the one preferred by the selected location's country.
   $scope.detectScale = function(scale){
       var fahrCountries = ['BS', 'BZ', 'KY', 'PW', 'US', 'PR', 'GU', 'VI'];
