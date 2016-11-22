@@ -1,21 +1,32 @@
 .current {
-  @extend %flex-v;
+  padding-bottom: 50px;
+
   .city-name {
     @extend %bottom-line;
-    @extend %align-self-stretch;
     @extend %upper;
-    font-size: 1.125rem;
+    font-size: 1.625rem;
+    font-weight: 400;
+    letter-spacing: .5rem;
+    padding-bottom: 5px;
   }
-    .icon {
-        img {
-            height: 90px;
-        }
-    }
 
-    .temp {
-        font-size: 3rem;
-    }
-    .cond {
-      font-size: 1rem;
-    }
+  .icon {
+    padding-top: 40px;
+
+    img {
+      width: 9rem;
+   }
+  }
+
+  .temp {
+    font-size: 9rem;
+    font-weight: 200;
+    margin-left: 10px; // offset the degree symbol
+  }
+
+  .cond {
+    font-size: 1.625rem;
+    margin-top: -10px;
+  }
+
 }

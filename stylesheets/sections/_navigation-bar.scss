@@ -1,49 +1,46 @@
 .navigation-bar {
-  position: absolute;
-  z-index: 100;
-  background-color: rgba($dkgrey, .7);
-  width: 100vw;
-  padding: 10px 25px;
   @extend %flex-h;
+  @extend %flex-wrap-wrap;
+  background-color: rgba($dkgrey, .7);
+  padding: 5px 25px;
+  position: absolute;
+  width: 100vw;
+  z-index: 100;
+}
 
-  .location {
-    .detect-location-icon img{
-      width: 23px;
-      margin-bottom: -7px;
-      &:hover {
-        cursor: pointer;
-      }
-    }
-    .city-search {
-      padding-left: 15px;
-      input {
-        @extend %cond;
-        color: white;
-        padding: 6px 10px;
-        border-radius: 10px;
-        background-color: rgba($grey, .3);
-        border: 1px solid $dkgrey;
-      }
-    }
-  }
+.location,
+.scale {
+  padding-bottom: 5px;
+  padding-top: 5px;
 
-  .scale {
-    @extend %upper;
-    font-size: .625rem;
-    .scale-type {
-      &:first-child {
-        margin-right: 10px;
-      }
-      &:hover {
-        cursor: pointer;
-        font-size: .7rem;
-      }
-    }
-    .active {
-      font-size: .7rem;
-    }
-    .inactive {
-      color: $grey;
-    }
+}
+
+.detect-location-icon img {
+  width: 15px;
+
+  &:hover {
+    cursor: pointer;
   }
 }
+
+.city-search,
+.scale {
+  padding-left: 7px;
+  padding-right: 7px;
+
+  input {
+    @extend %cond;
+    font-size: 1.25rem;
+    letter-spacing: initial;
+    padding: 5px 10px;
+  }
+}
+
+.selectpicker {
+  @extend %upper;
+  background-color: rgba($grey, .3);
+  border-radius: 10px;
+  color: $white;
+  font-size: 1rem;
+  padding: 4px 1px 4px 7px;
+  }

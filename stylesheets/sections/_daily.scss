@@ -1,42 +1,32 @@
 .daily {
 
-    .list {
+  .list-entry {
+    @extend %flex-h; // vertical alignment
+    @extend %bottom-line;
+    padding: 10px;
 
-      .list-entry {
-        @extend %flex-h;
-        @extend %bottom-line;
-        padding: 10px;
-        &:last-child {
-          border: none;
-        }
-        div {
-          width: 125px;
-        }
-        .day {
-            text-align: left;
-            flex-shrink: 2;
-        }
-
-        .icon {
-          flex-shrink: 1;
-          padding-top: 10px;
-            img {
-                width: 30px;
-            }
-        }
-        .temp {
-          text-align: right;
-          font-size: 1.12rem;
-          .high {
-              padding-right: 10px;
-          }
-
-          .low {
-              color: $grey;
-          }
-        }
-
-      }
-
+    &:last-child {
+      border: 0;
     }
+  }
+
+  .day {
+    text-align: left;
+  }
+
+  .icon img {
+    width: 30px;
+    }
+
+  .temp {
+    text-align: right;
+
+    .high {
+      padding-right: 10px;
+    }
+
+    .low {
+      color: $grey;
+    }
+  }
 }

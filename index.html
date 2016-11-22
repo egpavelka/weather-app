@@ -39,7 +39,7 @@
   <script src="app.js"></script>
 </head>
 
-<body ng-controller="weatherController" ng-init="geolocation()" ng-style="{'background-image':'url(img/'+current.weather[0].icon+'.jpg)'}">
+<body ng-controller="weatherController" ng-init="geolocation()" ng-style="{'background-image':'url(img/'+current.weather[0].icon+'.jpg)'}" ng-cloak>
 
     <!-- NAVIGATION BAR -->
 
@@ -47,28 +47,27 @@
         <div class="location">
                 <span class="detect-location-icon"><img src="icon/detect.png" ng-click="geolocation()" title="Use current location"/></span>
                 <span class="city-search">
-                  <input ng-model="chosenPlace" details="chosenPlaceDetails" googleplace/>
+                  <input class="selectpicker" ng-model="chosenPlace" details="chosenPlaceDetails" googleplace/>
                 </span>
         </div>
         <div class="scale">
-            <span class="scale-type active" id="temp-far" ng-click="switchToF()">fahrenheit</span>
-            <span class="scale-type inactive" id="temp-cel" ng-click="switchToC()">celsius</span>
-        </div>
+<span class="scale-select"><select class="selectpicker" ng-options="option.val as option.name for option in scaleOptions" ng-model="scale">
+        </select></span></div>
     </div>
 
 <!-- DISPLAY WEATHER -->
-    <div id="container" class="container">
-            <div id="inner-container" class="container inner" ng-cloak>
+    <div id="page-container" class="container-fluid">
+            <div id="content-container" class="container">
 
                 <!-- current conditions -->
-                <div class="current">
-                  <div class = "city-name">
+                <div class="current row">
+                  <div class = "city-name col-xs-12">
                     {{ current.name }}
                   </div>
-                  <div class="icon"><img ng-src="icon/{{ current.weather[0].icon }}.png" />
+                  <div class="icon col-xs-12"><img ng-src="icon/{{ current.weather[0].icon }}.png" />
                   </div>
-                    <div class="temp">{{ current.main.temp | convertTemp: scale }}</div>
-                    <div class="cond">{{ current.weather[0].description }}</div>
+                    <div class="temp col-xs-12">{{ current.main.temp | convertTemp: scale }}</div>
+                    <div class="cond col-xs-12">{{ current.weather[0].description }}</div>
 
                 </div>
 
@@ -96,20 +95,20 @@
                 </div>
 
                 <!-- 5-day forecast -->
-                <div class="daily">
-                    <div class="list">
-                        <div class="list-entry" ng-repeat="day in daily | limitTo:6" ng-if="$index > 0">
-                            <div class="day">
-                                {{ day.dt*1000 | date: 'EEEE'}}
-                            </div>
-                            <div class="icon"><img ng-src="icon/{{ day.weather[0].icon }}.png" /></div>
-                            <div class="temp">
-                                <span class="high">{{ day.temp.max | convertTemp: scale }}</span>
-                                <span class="low">{{ day.temp.min | convertTemp: scale }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <div class="daily">
+      <div class="list">
+          <div class="list-entry row" ng-repeat="day in daily | limitTo:6" ng-if="$index > 0">
+              <div class="day col-xs-5 col-s-4">
+                  {{ day.dt*1000 | date: 'EEEE'}}
+              </div>
+              <div class="icon col-xs-3 col-s-4"><img ng-src="icon/{{ day.weather[0].icon }}.png" /></div>
+              <div class="temp col-xs-4 col-s-4">
+                  <span class="high">{{ day.temp.max | convertTemp: scale }}</span>
+                  <span class="low">{{ day.temp.min | convertTemp: scale }}</span>
+              </div>
+          </div>
+      </div>
+  </div>
 
             </div>
 

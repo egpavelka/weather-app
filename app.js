@@ -36,7 +36,6 @@
                 .then(function(data) {
                     $scope.current = data.current.data;
                     $scope.hourly = data.hourly.data.list;
-                    console.log($scope.hourly);
                     $scope.daily = data.daily.data.list;
                     // Set temperature scale
                     $scope.detectScale();
@@ -79,29 +78,40 @@ function rebuildSlide(n) {
 
 // TEMPERATURE SCALE FUNCTIONS
 // Default to Fahrenheit
-$scope.scale = 'f';
+$scope.scaleOptions = [{
+  name: 'Fahrenheit',
+  val: 'f'
+},
+{
+  name: 'Celsius',
+  val: 'c'
+}];
+$scope.scale = $scope.scaleOptions[0].val;
 // Autoset the scale to the one preferred by the selected location's country.
   $scope.detectScale = function(scale){
       var fahrCountries = ['BS', 'BZ', 'KY', 'PW', 'US', 'PR', 'GU', 'VI'];
           //['The Bahamas', 'Belize', 'Cayman Islands', 'Palau', 'United States', 'Puerto Rico', 'Guam', 'U.S. Virgin Islands']
       var country = $scope.current.sys.country;
       if (fahrCountries.indexOf(country) === -1) {
-        $scope.switchToC();
+        $scope.scale = $scope.scaleOptions[1].val;
+        console.log($scope.scaleOptions[1].val, $scope.scaleOptions[1].name);
       }
       else {
-        $scope.switchToF();
+        $scope.scale = $scope.scaleOptions[0].val;
   }
 
 };
+
   // Change the filter that converts temperatures from Kelvin and the appearance of "Fahrenheit" and "Celsius" buttons so that the active scale is highlighted.
   $scope.switchToC = function() {
-      document.getElementById("temp-far").className = "scale-type inactive";
-      document.getElementById("temp-cel").className = "scale-type active";
+      // document.getElementById("temp-far").className = "scale-type inactive";
+      // document.getElementById("temp-cel").className = "scale-type active";
+      console.log("change");
       $scope.scale = 'c';
   };
   $scope.switchToF = function() {
-      document.getElementById("temp-cel").className = "scale-type inactive";
-      document.getElementById("temp-far").className = "scale-type active";
+      // document.getElementById("temp-cel").className = "scale-type inactive";
+      // document.getElementById("temp-far").className = "scale-type active";
       $scope.scale = 'f';
   };
 
