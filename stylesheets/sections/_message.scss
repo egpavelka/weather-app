@@ -18,10 +18,4 @@
     padding: 20px;
     text-align: left;
   }
-
-  .note {
-    @extend %cond;
-    text-align: left;
-    text-transform: none;
-  }
 }

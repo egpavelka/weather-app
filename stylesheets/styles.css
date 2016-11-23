@@ -5,7 +5,7 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
-@import url("https://fonts.googleapis.com/css?family=Catamaran:200,300,400|Merriweather:400i");
+@import url("https://fonts.googleapis.com/css?family=Catamaran:200,300,400|Droid+Serif:400i");
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
@@ -7956,11 +7956,10 @@ a {
 }
 
 .cond,
-.message .note,
 .city-search input,
 .scale input {
-  font-family: 'Merriweather', serif;
-  font-size: 1.25rem;
+  font-family: 'Droid Serif', serif;
+  font-size: 1.375rem;
   font-style: italic;
   text-transform: capitalize;
 }
@@ -8040,7 +8039,7 @@ body {
 }
 
 .current .cond {
-  font-size: 1.625rem;
+  font-size: 1.875rem;
   margin-top: -10px;
 }
 
@@ -8131,11 +8130,6 @@ body {
   font-size: 1.75rem;
   padding: 20px;
   text-align: left;
-}
-
-.message .note {
-  text-align: left;
-  text-transform: none;
 }
 
 .navigation-bar {
