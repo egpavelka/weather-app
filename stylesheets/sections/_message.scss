@@ -1,0 +1,27 @@
+.message {
+  @extend %flex-v;
+  max-width: 700px;
+
+  .header,
+  .details {
+    font-weight: 200;
+  }
+
+  .header {
+    font-size: 3.5rem;
+    letter-spacing: .1rem;
+    padding: 20px 10px 0;
+  }
+
+  .details {
+    font-size: 1.75rem;
+    padding: 20px;
+    text-align: left;
+  }
+
+  .note {
+    @extend %cond;
+    text-align: left;
+    text-transform: none;
+  }
+}

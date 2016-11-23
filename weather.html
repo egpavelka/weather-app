@@ -1,0 +1,60 @@
+<div id="content-container" class="container" ng-style="{'width': containerWidth}">
+
+    <!-- current conditions -->
+    <div class="current row">
+      <div class = "city-name">
+        {{ current.name }}
+      </div>
+      <div class="icon"><img ng-src="icon/{{ current.weather[0].icon }}.png" />
+      </div>
+        <div class="temp">{{ current.main.temp | convertTemp: scale }}</div>
+        <div class="cond">{{ current.weather[0].description }}</div>
+
+    </div>
+
+    <!-- hourly forecast -->
+    <div class="hourly row">
+
+        <div class="day-overview">
+            <div class="day">{{ daily[0].dt*1000 | date: 'EEEE, MMMM dd' }}</div>
+            <div class="temp">
+                <span class="high">{{ daily[0].temp.max | convertTemp: scale }}</span>
+                <span class="low">{{ daily[0].temp.min | convertTemp: scale }}</span>
+            </div>
+        </div>
+
+<div class="list"><ul rn-carousel>
+<!-- Container slide: contains 3 forecasts -->
+<li ng-repeat="slide in hourlySlides" class="slide">
+<span class="rn-carousel-control rn-carousel-control-prev ng-scope" ng-click="prevSlide()" ng-if="carouselIndex > 0 || false"></span>
+<ul>
+<li ng-repeat="hour in slide" class="list-entry">
+<div class="time">{{ hour.dt*1000 | date: 'h a'}}</div>
+<div class="icon"><img ng-src="icon/{{ hour.weather[0].icon }}.png" /></div>
+<div class="temp">{{ hour.main.temp | convertTemp: scale }}</div>
+<div class="cond">{{ hour.weather[0].description }}</div>
+</li>
+</ul>
+<span class="rn-carousel-control rn-carousel-control-next ng-scope" ng-click="nextSlide()" ng-if="carouselIndex < (hourlySlides).length - 1 || false"></span>
+</li>
+</ul></div>
+
+    </div>
+
+    <!-- 5-day forecast -->
+<div class="daily">
+<div class="list">
+<div class="list-entry row" ng-repeat="day in daily | limitTo:6" ng-if="$index > 0">
+  <div class="day col-xs-5 col-s-4">
+      {{ day.dt*1000 | date: 'EEEE'}}
+  </div>
+  <div class="icon col-xs-3 col-s-4"><img ng-src="icon/{{ day.weather[0].icon }}.png" /></div>
+  <div class="temp col-xs-4 col-s-4">
+      <span class="high">{{ day.temp.max | convertTemp: scale }}</span>
+      <span class="low">{{ day.temp.min | convertTemp: scale }}</span>
+  </div>
+</div>
+</div>
+</div>
+
+</div>

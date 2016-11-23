@@ -18,6 +18,16 @@
 _____________________________________________________________
 
 # CHANGELOG
+## [Release 1.0] 2016.11.23
+### COMPLETED
+- All FCC User Stories are complete.
+- App will load weather by geolocation or search.
+- App is completely responsive and will scale to four standard device sizes.
+
+### IN PROGRESS
+- Verify that all background images work with white text, change as needed.
+- Change default background color.
+
 ## [Unreleased] 2016.11.17
 ### COMPLETED
 - Functioning weather app, at last. All FCC User Stories are fulfilled.

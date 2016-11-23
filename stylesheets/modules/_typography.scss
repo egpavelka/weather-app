@@ -3,8 +3,13 @@
 body {
   color: white;
   font-family: 'Catamaran', sans-serif;
+  letter-spacing: .02rem;
   text-align: center;
   }
+
+a {
+  color: white;
+}
 
 %upper {
   letter-spacing: .2rem;
@@ -21,9 +26,9 @@ body {
 
 .day {
   @extend %upper;
-  font-size: 1.25rem;
+  font-size: 1.375rem;
 }
 
 .temp {
-  font-size: 1.75rem;
+  font-size: 1.875rem;
   }
