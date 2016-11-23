@@ -39,7 +39,7 @@
   <script src="app.js"></script>
 </head>
 
-<body ng-controller="weatherController" ng-init="geolocation()" ng-style="{'background-image':'url(img/'+current.weather[0].icon+'.jpg)'}">
+<body ng-controller="weatherController" ng-init="geolocation()" ng-style="currentStatus === 'weatherReady' && {'background-image':'url(img/'+current.weather[0].icon+'.jpg)'}">
 
     <!-- NAVIGATION BAR -->
 
@@ -51,12 +51,12 @@
                 </span>
         </div>
         <div class="scale">
-<span class="scale-select"><select class="selectpicker" ng-options="option.val as option.name for option in scaleOptions" ng-model="scale">
+<span class="scale-select"><select class="selectpicker" ng-options="option.val as option.name for option in scaleOptions" ng-model="scale" ng-disabled="currentStatus !== 'weatherReady'">
         </select></span></div>
     </div>
 
 
-<div id="page-container" class="container-fluid" ng-switch="currentStatus">
+<div id="page-container" class="container-fluid" ng-switch="currentStatus" ng-class="{'miniscreen' : miniscreen}">
   <!-- DISPLAY WEATHER -->
   <weather-ready ng-switch-when="weatherReady"></weather-ready>
   <loading-location ng-switch-when="loadingLocation"></loading-location>

@@ -17,6 +17,8 @@
         $scope.slideCount = '';
         // INITIALIZE STATUS FOR VIEW SWITCH
         $scope.currentStatus = 'loadingLocation';
+        // INITIALIZE TEMP MENU AS DISABLED
+        $scope.scaleOn = false;
         // CHECK FOR GEOLOCATION IN BROWSER, INVOKE ON WINDOW LOAD
         $scope.geolocation = function() {
             geolocationService.detectGeolocation()
@@ -95,6 +97,7 @@
         };
 
         $scope.setSizeScopes = function(w) {
+          $scope.miniscreen = false;
             if (w >= 900) {
                 // desktop
                 $scope.containerWidth = '870px';
@@ -111,6 +114,9 @@
                 // small phone
                 $scope.containerWidth = '310px';
                 $scope.slideCount = 2;
+                if (w < 340) {
+                  $scope.miniscreen = true;
+                }
             }
         };
         // Initialize on window load
@@ -148,7 +154,7 @@
         };
     }]);
     // Enable Google location search with autocomplete
-    app.directive('googleplace', ['urlService', function(urlService) {
+    app.directive('googleplace', ['urlService', '$window', function(urlService, $window) {
         return {
             require: 'ngModel',
             controller: 'weatherController',
@@ -161,6 +167,15 @@
                     types: [],
                     componentRestrictions: {}
                 };
+
+                // Select all on click
+                element.on('click', function () {
+              if (!$window.getSelection().toString()) {
+                  // Required for mobile Safari
+                  this.setSelectionRange(0, this.value.length);
+              }
+          });
+
                 scope.searchLocation = new google.maps.places.Autocomplete(element[0], options);
 
                 google.maps.event.addListener(scope.searchLocation, 'place_changed', function() {

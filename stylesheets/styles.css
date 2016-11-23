@@ -5,7 +5,7 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
-@import url("https://fonts.googleapis.com/css?family=Catamaran:200,300,400|Merriweather:400i");
+@import url("https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400|Merriweather:400i");
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
@@ -7940,14 +7940,14 @@ div.rn-carousel-indicator span.active {
 }
 
 body {
-  color: white;
+  color: #fff;
   font-family: 'Catamaran', sans-serif;
   letter-spacing: .02rem;
   text-align: center;
 }
 
 a {
-  color: white;
+  color: #fff;
 }
 
 .day, .current .city-name, .selectpicker {
@@ -7965,11 +7965,11 @@ a {
 }
 
 .day {
-  font-size: 1.375rem;
+  font-size: 1.3rem;
 }
 
 .temp {
-  font-size: 1.875rem;
+  font-size: 1.75rem;
 }
 
 * {
@@ -8005,6 +8005,31 @@ body {
   padding-right: 0;
 }
 
+.miniscreen {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.miniscreen .current {
+  padding-bottom: 40px;
+}
+
+.miniscreen .current .temp {
+  font-size: 7rem;
+}
+
+.miniscreen .day-overview .day,
+.miniscreen .day-overview .temp,
+.miniscreen .daily .day,
+.miniscreen .daily .temp {
+  font-size: 90%;
+}
+
+.miniscreen .day-overview img,
+.miniscreen .daily img {
+  width: 30px;
+}
+
 .current .city-name, .hourly .day-overview, .hourly .list, .daily .list-entry {
   border-bottom: 1px solid #aaa;
 }
@@ -8034,7 +8059,7 @@ body {
 
 .current .temp {
   font-size: 9rem;
-  font-weight: 200;
+  font-weight: 100;
   margin-left: 10px;
 }
 
@@ -8067,8 +8092,8 @@ body {
 
 .hourly .list-entry {
   display: inline-block;
-  margin: auto 20px;
-  width: 100px;
+  margin: auto 10px;
+  width: 120px;
 }
 
 .hourly .list-entry .icon {
@@ -8162,15 +8187,20 @@ body {
 
 .city-search input,
 .scale input {
+  color: #444;
   font-size: 1.25rem;
   letter-spacing: initial;
   padding: 5px 10px;
 }
 
 .selectpicker {
-  background-color: rgba(170, 170, 170, 0.3);
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
   border-radius: 10px;
-  color: #fff;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 10px;
+  color: #444;
   font-size: 1rem;
   padding: 4px 1px 4px 7px;
 }

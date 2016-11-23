@@ -30,6 +30,7 @@
 
   input {
     @extend %cond;
+    color: $dkgrey;
     font-size: 1.25rem;
     letter-spacing: initial;
     padding: 5px 10px;
@@ -38,9 +39,10 @@
 
 .selectpicker {
   @extend %upper;
-  background-color: rgba($grey, .3);
+  @include border-radius(10px);
+  background-color: rgba($white, .6);
   border-radius: 10px;
-  color: $white;
+  color: $dkgrey;
   font-size: 1rem;
   padding: 4px 1px 4px 7px;
   }

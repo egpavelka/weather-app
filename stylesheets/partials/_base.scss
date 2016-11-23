@@ -28,3 +28,28 @@ body {
   padding-left: 0;
   padding-right: 0;
 }
+
+.miniscreen {
+  padding-left: 0;
+  padding-right: 0;
+
+  .current {
+    padding-bottom: 40px;
+
+    .temp {
+      font-size: 7rem;
+    }
+  }
+
+  .day-overview,
+   .daily {
+    .day,
+    .temp {
+      font-size: 90%;
+    }
+
+    img {
+      width: 30px;
+    }
+  }
+}
