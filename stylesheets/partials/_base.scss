@@ -14,6 +14,7 @@ body {
 }
 
 .container-fluid { // BS
+  background-color: rgba($defaultbg, .3);
   min-height: 100vh;
 }
 .container { //BS

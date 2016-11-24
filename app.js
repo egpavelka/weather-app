@@ -2,9 +2,9 @@
     'use strict';
 
     // APP
-    var app = angular.module('weatherApp', ['angular-carousel']);
+    var app = angular.module('weatherApp', ['angular-carousel', 'angularReverseGeocode']);
 
-    app.controller('weatherController', ['$scope', '$window', '$timeout', 'geolocationService', 'urlService', 'weatherService', function($scope, $window, $timeout, geolocationService, urlService, weatherService) {
+    app.controller('weatherController', ['$scope', '$window', '$timeout', 'geolocationService', 'weatherService', function($scope, $window, $timeout, geolocationService, weatherService) {
 
         // INITIALIZE RESULTS OF API QUERIES
         $scope.current = {};
@@ -23,6 +23,7 @@
         $scope.geolocation = function() {
             geolocationService.detectGeolocation()
                 .then(function(results) {
+                  $scope.coords = results;
                     $scope.fetchWeather(results.lat, results.lon);
                 }, function(err) {
                     console.log(err);
@@ -32,23 +33,18 @@
         //
 
         // GET WEATHER: send coordinates to build URLs, then make HTTP calls
-        $scope.fetchWeather = function(lat, lon) {
-            urlService.setLocation(lat, lon)
-                .then(function(results) {
-                    $scope.updateWeather(results);
-                });
-        };
 
         // UPDATE VIEW: nested promise to update scopes with bindings
-        $scope.updateWeather = function(results) {
-            weatherService.fetchWeather(results)
+        $scope.fetchWeather = function(lat, lon) {
+            weatherService.fetchWeather(lat, lon)
                 .then(function(data) {
-                    $scope.current = data.current.data;
-                    $scope.hourly = data.hourly.data.list;
-                    $scope.daily = data.daily.data.list;
+                    $scope.current = data.current_observation;
+                    $scope.hourly = data.hourly_forecast;
+                    $scope.daily = data.forecast.simpleforecast.forecastday;
                     // Set up hourly slides for current window
                     $scope.buildSlides($scope.slideCount);
                     // Set temperature scale
+                    console.log(data);
                     $scope.detectScale();
                     $scope.currentStatus = "weatherReady";
 
@@ -61,11 +57,12 @@
         // TEMPERATURE SCALE FUNCTIONS: change scope variable for 'if' statement in scale filter
         // Default to Fahrenheit
         $scope.scaleOptions = [{
+              name: 'Celsius',
+              val: 'c'
+          },
+          {
             name: 'Fahrenheit',
             val: 'f'
-        }, {
-            name: 'Celsius',
-            val: 'c'
         }];
         $scope.scale = $scope.scaleOptions[0].val;
 
@@ -73,11 +70,11 @@
         $scope.detectScale = function(scale) {
             var fahrCountries = ['BS', 'BZ', 'KY', 'PW', 'US', 'PR', 'GU', 'VI'];
             //['The Bahamas', 'Belize', 'Cayman Islands', 'Palau', 'United States', 'Puerto Rico', 'Guam', 'U.S. Virgin Islands']
-            var country = $scope.current.sys.country;
+            var country = $scope.current.observation_location.country;
             if (fahrCountries.indexOf(country) === -1) {
-                $scope.scale = $scope.scaleOptions[1].val;
-            } else {
                 $scope.scale = $scope.scaleOptions[0].val;
+            } else {
+                $scope.scale = $scope.scaleOptions[1].val;
             }
         };
 
@@ -97,7 +94,7 @@
         };
 
         $scope.setSizeScopes = function(w) {
-          $scope.miniscreen = false;
+            $scope.miniscreen = false;
             if (w >= 900) {
                 // desktop
                 $scope.containerWidth = '870px';
@@ -115,7 +112,7 @@
                 $scope.containerWidth = '310px';
                 $scope.slideCount = 2;
                 if (w < 340) {
-                  $scope.miniscreen = true;
+                    $scope.miniscreen = true;
                 }
             }
         };
@@ -134,27 +131,27 @@
     // Check for geolocation
     app.factory('geolocationService', ['$q', '$window', function($q, $window) {
         return {
-          detectGeolocation: function() {
-              var deferred = $q.defer();
-              var coords = {};
-              // CHECK FOR GEOLOCATION
-              if ($window.navigator && $window.navigator.geolocation) {
-                  $window.navigator.geolocation.getCurrentPosition(function(position) {
-                      coords.lat = position.coords.latitude;
-                      coords.lon = position.coords.longitude;
-                      deferred.resolve(coords);
-                  }, function(err){
+            detectGeolocation: function() {
+                var deferred = $q.defer();
+                var coords = {};
+                // CHECK FOR GEOLOCATION
+                if ($window.navigator && $window.navigator.geolocation) {
+                    $window.navigator.geolocation.getCurrentPosition(function(position) {
+                        coords.lat = position.coords.latitude;
+                        coords.lon = position.coords.longitude;
+                        deferred.resolve(coords);
+                    }, function(err) {
+                        deferred.reject(err);
+                    });
+                } else {
                     deferred.reject(err);
-                  });
-              } else {
-                deferred.reject(err);
-              }
-              return deferred.promise;
+                }
+                return deferred.promise;
             }
         };
     }]);
     // Enable Google location search with autocomplete
-    app.directive('googleplace', ['urlService', '$window', function(urlService, $window) {
+    app.directive('googleplace', ['weatherService', '$window', function(weatherService, $window) {
         return {
             require: 'ngModel',
             controller: 'weatherController',
@@ -169,12 +166,12 @@
                 };
 
                 // Select all on click
-                element.on('click', function () {
-              if (!$window.getSelection().toString()) {
-                  // Required for mobile Safari
-                  this.setSelectionRange(0, this.value.length);
-              }
-          });
+                element.on('click', function() {
+                    if (!$window.getSelection().toString()) {
+                        // Required for mobile Safari
+                        this.setSelectionRange(0, this.value.length);
+                    }
+                });
 
                 scope.searchLocation = new google.maps.places.Autocomplete(element[0], options);
 
@@ -183,8 +180,12 @@
                         scope.details = scope.searchLocation.getPlace();
                         model.$setViewValue(element.val());
                         // Send coordinates to factory
+                        scope.$parent.coords = {
+                          lat: scope.details.geometry.location.lat(),
+                          lon: scope.details.geometry.location.lng()
+                        };
                         scope.$parent.fetchWeather(
-                            scope.details.geometry.location.lat(), scope.details.geometry.location.lng());
+                            scope.$parent.coords.lat, scope.$parent.coords.lon);
 
                         //TODO add factory link getCountryName(scope.details.address_components);
 
@@ -195,58 +196,19 @@
     }]);
 
     // CHECK THE WEATHER
-    // Build URLs for API calls based on location information
-    app.factory('urlService', ['$q', function($q) {
-        var coords = '';
-        var urlList = [];
-        return {
-            setLocation: function(lat, lon) {
-                // SET COORDINATES
-                coords = '?lat=' + lat + '&lon=' + lon;
-
-                // BUILD URLS
-                // Components for URLS
-                var baseUrl = 'http://api.openweathermap.org/data/2.5/',
-                    appId = '&APPID=831f9a0e76c47eb878b49f28785cd20b',
-                    parameters = ['weather', 'forecast', 'forecast/daily'];
-
-                // Create for each forecast type parameter and store accordingly in urlList
-                var deferred = $q.defer();
-                for (var i = 0; i < 3; i++) {
-                    urlList[i] = baseUrl + parameters[i] + coords + appId;
-                }
-                deferred.resolve(urlList);
-                return deferred.promise;
-
-            }
-
-        };
-
-    }]);
     // Make $http calls with the new URLs
-    app.factory('weatherService', ['urlService', '$http', '$q', function(urlService, $http, $q) {
+    app.factory('weatherService', ['$http', function($http) {
 
         return {
-            fetchWeather: function(list) {
-                return $q.all(list.map(function(apiCall) {
-                        return $http.get(apiCall, {
-                            timeout: 3000
-                        });
-                    }))
+            fetchWeather: function(lat, lon) {
+                var apiUrl = '//api.wunderground.com/api/2f6c61c87edae1a8/conditions/hourly/forecast10day/q/' + lat + ',' + lon + '.json';
+
+                return $http.get(apiUrl)
                     .then(function(results) {
-                        // Set up results object and its keys
-                        var weatherList = {
-                            current: '',
-                            hourly: '',
-                            daily: ''
-                        };
-                        var dataKeys = Object.keys(weatherList);
-                        // Send data to results object
-                        for (var i = 0; i < 3; i++) {
-                            weatherList[dataKeys[i]] = results[i];
+                            return results.data;
                         }
-                        return weatherList;
-                    });
+
+                    );
             }
         };
 
@@ -260,12 +222,11 @@
             var convertedTemp;
 
             if (scale === 'c') {
-                var c = temp - 273.15;
-                convertedTemp = Math.round(c);
+                convertedTemp = Math.round(temp);
             }
 
             if (scale === 'f') {
-                var f = (temp * 9) / 5 - 459.67;
+                var f = (temp * 9) / 5 + 32;
                 convertedTemp = Math.round(f);
             }
             return convertedTemp + '\u00B0';

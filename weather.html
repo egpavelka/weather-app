@@ -1,14 +1,16 @@
-<div id="content-container" class="container" ng-style="{'width': containerWidth}">
+<div id="content-container" class="container weather" ng-style="{'width': containerWidth}">
 
     <!-- current conditions -->
     <div class="current row">
-      <div class = "city-name">
-        {{ current.name }}
+      <!-- <div class = "city-name">
+        {{ current.display_location.full}}
+      </div> -->
+      <reverse-geocode lat="{{coords.lat}}" lng="{{coords.lon}}" class="city-name"></reverse-geocode>
+
+      <div class="icon"><img ng-src="icon/{{ current.icon }}.png" />
       </div>
-      <div class="icon"><img ng-src="icon/{{ current.weather[0].icon }}.png" />
-      </div>
-        <div class="temp">{{ current.main.temp | convertTemp: scale }}</div>
-        <div class="cond">{{ current.weather[0].description }}</div>
+        <div class="temp">{{ current.temp_c | convertTemp: scale }}</div>
+        <div class="cond">{{ current.weather }}</div>
 
     </div>
 
@@ -16,10 +18,10 @@
     <div class="hourly row">
 
         <div class="day-overview">
-            <div class="day">{{ daily[0].dt*1000 | date: 'EEEE, MMMM dd' }}</div>
+            <div class="day">{{ daily[0].date.epoch*1000 | date: 'EEEE, MMMM dd' }}</div>
             <div class="temp">
-                <span class="high">{{ daily[0].temp.max | convertTemp: scale }}</span>
-                <span class="low">{{ daily[0].temp.min | convertTemp: scale }}</span>
+                <span class="high">{{ daily[0].high.celsius | convertTemp: scale }}</span>
+                <span class="low">{{ daily[0].low.celsius | convertTemp: scale }}</span>
             </div>
         </div>
 
@@ -29,10 +31,12 @@
 <span class="rn-carousel-control rn-carousel-control-prev ng-scope" ng-click="prevSlide()" ng-if="carouselIndex > 0 || false"></span>
 <ul>
 <li ng-repeat="hour in slide" class="list-entry">
-<div class="time">{{ hour.dt*1000 | date: 'h a'}}</div>
-<div class="icon"><img ng-src="icon/{{ hour.weather[0].icon }}.png" /></div>
-<div class="temp">{{ hour.main.temp | convertTemp: scale }}</div>
-<div class="cond">{{ hour.weather[0].description }}</div>
+  <div class="stretch-slide">
+  <div class="time">{{ hour.FCTTIME.epoch*1000 | date: 'h a'}}</div>
+  <div class="icon"><img ng-src="icon/{{ hour.icon }}.png" /></div>
+  <div class="temp">{{ hour.temp.metric | convertTemp: scale }}</div>
+  <div class="cond">{{ hour.condition }}</div>
+</div>
 </li>
 </ul>
 <span class="rn-carousel-control rn-carousel-control-next ng-scope" ng-click="nextSlide()" ng-if="carouselIndex < (hourlySlides).length - 1 || false"></span>
@@ -46,12 +50,12 @@
 <div class="list">
 <div class="list-entry row" ng-repeat="day in daily | limitTo:6" ng-if="$index > 0">
   <div class="day col-xs-5 col-s-4">
-      {{ day.dt*1000 | date: 'EEEE'}}
+      {{ day.date.epoch*1000 | date: 'EEEE'}}
   </div>
-  <div class="icon col-xs-3 col-s-4"><img ng-src="icon/{{ day.weather[0].icon }}.png" /></div>
+  <div class="icon col-xs-3 col-s-4"><img ng-src="icon/{{ day.icon }}.png" /></div>
   <div class="temp col-xs-4 col-s-4">
-      <span class="high">{{ day.temp.max | convertTemp: scale }}</span>
-      <span class="low">{{ day.temp.min | convertTemp: scale }}</span>
+      <span class="high">{{ day.high.celsius | convertTemp: scale }}</span>
+      <span class="low">{{ day.low.celsius | convertTemp: scale }}</span>
   </div>
 </div>
 </div>

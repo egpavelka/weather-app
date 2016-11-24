@@ -7747,7 +7747,7 @@ button.close {
 /*
     Display
  */
-.hourly .day-overview, .daily .list-entry, .navigation-bar, .message {
+.hourly .day-overview, .daily .list-entry, .navigation-bar, .stretch-slide, .message {
   display: -webkit-box;
   display: -moz-box;
   display: -webkit-flexbox;
@@ -7768,7 +7768,7 @@ button.close {
   flex-direction: row;
 }
 
-.message {
+.stretch-slide, .message {
   -webkit-box-orient: vertical;
   -moz-box-orient: vertical;
   -webkit-flex-direction: column;
@@ -7780,7 +7780,7 @@ button.close {
 /*
     Flex wrap
  */
-.hourly .day-overview, .daily .list-entry, .navigation-bar, .message {
+.hourly .day-overview, .daily .list-entry, .navigation-bar, .stretch-slide, .message {
   -webkit-flex-wrap: nowrap;
   -moz-flex-wrap: nowrap;
   -ms-flex-wrap: none;
@@ -7828,7 +7828,7 @@ button.close {
 /*
     Align items
  */
-.hourly .day-overview, .daily .list-entry, .navigation-bar, .message {
+.hourly .day-overview, .daily .list-entry, .navigation-bar, .stretch-slide, .message {
   -webkit-box-align: center;
   -ms-flex-align: center;
   -webkit-align-items: center;
@@ -7849,7 +7849,7 @@ button.close {
   align-content: center;
 }
 
-.message {
+.stretch-slide, .message {
   -ms-flex-line-pack: stretch;
   -webkit-align-content: stretch;
   -moz-align-content: stretch;
@@ -7989,6 +7989,7 @@ body {
 }
 
 .container-fluid {
+  background-color: rgba(34, 34, 48, 0.3);
   min-height: 100vh;
 }
 
@@ -8031,7 +8032,7 @@ body {
 }
 
 .current .city-name, .hourly .day-overview, .hourly .list, .daily .list-entry {
-  border-bottom: 1px solid #aaa;
+  border-bottom: 1px solid #bbb;
 }
 
 ::-webkit-scrollbar {
@@ -8043,9 +8044,8 @@ body {
 }
 
 .current .city-name {
-  font-size: 1.95rem;
+  font-size: 1.85rem;
   font-weight: 400;
-  letter-spacing: .5rem;
   padding-bottom: 5px;
 }
 
@@ -8077,7 +8077,7 @@ body {
 }
 
 .hourly .day-overview .low {
-  color: #aaa;
+  color: #bbb;
 }
 
 .hourly .list {
@@ -8086,25 +8086,26 @@ body {
 }
 
 .hourly .list ul {
-  height: 127px;
+  height: 137px;
   margin: 5px auto;
 }
 
 .hourly .list-entry {
   display: inline-block;
+  height: 127px;
   margin: auto 10px;
   width: 120px;
 }
 
-.hourly .list-entry .icon {
+.stretch-slide .icon {
   padding: 10px 0;
 }
 
-.hourly .list-entry .icon img {
+.stretch-slide .icon img {
   height: 35px;
 }
 
-.hourly .list-entry .time {
+.stretch-slide .time {
   font-size: 1.5rem;
 }
 
@@ -8133,7 +8134,7 @@ body {
 }
 
 .daily .temp .low {
-  color: #aaa;
+  color: #bbb;
 }
 
 .message {

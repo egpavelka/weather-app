@@ -20,28 +20,32 @@
     padding-top: 10px;
 
     ul {
-      height: 127px;
+      height: 137px;
       margin: 5px auto;
     }
   }
 
   .list-entry {
     display: inline-block;
+    height: 127px;
     margin: auto 10px;
     width: 120px;
-
-    .icon {
-      padding: 10px 0;
-
-      img {
-        height: 35px;
-      }
-    }
-
-    .time {
-      font-size: 1.5rem;
-    }
-
   }
 
+}
+
+.stretch-slide {
+  @extend %flex-v;
+
+  .icon {
+    padding: 10px 0;
+
+    img {
+      height: 35px;
+    }
+  }
+
+  .time {
+    font-size: 1.5rem;
+  }
 }
