@@ -1,3 +1,6 @@
+View live: https://egpavelka.com/weather
+_____________________________________________________________
+
 # DESCRIPTION OF PROJECT FROM FCC
 
 ## Show the Local Weather
@@ -18,6 +21,17 @@
 _____________________________________________________________
 
 # CHANGELOG
+## [Release 1.1] 2016.11.23
+### COMPLETED
+- Overhauled to use Weather Underground instead of Open Weather Map API.  This should allow searches by geolocation in browsers (like newer Chrome) that require SSL for location services.
+- Changed some of the background images and added a low opacity background to container to make sure everything stays visible.
+- When search field is clicked, all text in the box is highlighted by default.
+- Added reverse geocode lookup to standardize city names between detection and search.
+- Select for temp scale is disabled unless weather data is currently in the view.
+
+### IN PROGRESS
+- Change the color of input field's placeholder to dkgrey/black.
+
 ## [Release 1.0] 2016.11.23
 ### COMPLETED
 - All FCC User Stories are complete.
