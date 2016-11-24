@@ -2,11 +2,9 @@
 
     <!-- current conditions -->
     <div class="current row">
-      <!-- <div class = "city-name">
+      <div class = "city-name">
         {{ current.display_location.full}}
-      </div> -->
-      <reverse-geocode lat="{{coords.lat}}" lng="{{coords.lon}}" class="city-name"></reverse-geocode>
-
+      </div>
       <div class="icon"><img ng-src="icon/{{ current.icon }}.png" />
       </div>
         <div class="temp">{{ current.temp_c | convertTemp: scale }}</div>

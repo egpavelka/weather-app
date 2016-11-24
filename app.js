@@ -2,7 +2,7 @@
     'use strict';
 
     // APP
-    var app = angular.module('weatherApp', ['angular-carousel', 'angularReverseGeocode']);
+    var app = angular.module('weatherApp', ['angular-carousel']);
 
     app.controller('weatherController', ['$scope', '$window', '$timeout', 'geolocationService', 'weatherService', function($scope, $window, $timeout, geolocationService, weatherService) {
 
@@ -23,7 +23,6 @@
         $scope.geolocation = function() {
             geolocationService.detectGeolocation()
                 .then(function(results) {
-                  $scope.coords = results;
                     $scope.fetchWeather(results.lat, results.lon);
                 }, function(err) {
                     console.log(err);
@@ -180,12 +179,8 @@
                         scope.details = scope.searchLocation.getPlace();
                         model.$setViewValue(element.val());
                         // Send coordinates to factory
-                        scope.$parent.coords = {
-                          lat: scope.details.geometry.location.lat(),
-                          lon: scope.details.geometry.location.lng()
-                        };
                         scope.$parent.fetchWeather(
-                            scope.$parent.coords.lat, scope.$parent.coords.lon);
+                            scope.details.geometry.location.lat(), scope.details.geometry.location.lng());
 
                         //TODO add factory link getCountryName(scope.details.address_components);
 

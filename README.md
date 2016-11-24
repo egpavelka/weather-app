@@ -26,7 +26,6 @@ _____________________________________________________________
 - Overhauled to use Weather Underground instead of Open Weather Map API.  This should allow searches by geolocation in browsers (like newer Chrome) that require SSL for location services.
 - Changed some of the background images and added a low opacity background to container to make sure everything stays visible.
 - When search field is clicked, all text in the box is highlighted by default.
-- Added reverse geocode lookup to standardize city names between detection and search.
 - Select for temp scale is disabled unless weather data is currently in the view.
 
 ### IN PROGRESS

@@ -8,9 +8,6 @@
   "main": "index.html",
   "license": "MIT",
   "private": true,
-  "dependencies": {
-    "angular-reverse-geocode" : "1.2.16"
-  },
   "ignore": [
     "**/.*",
     "node_modules",
