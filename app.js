@@ -44,7 +44,7 @@
                     // Set up hourly slides for current window
                     $scope.buildSlides($scope.slideCount);
                     // Set temperature scale
-                    console.log(data);
+                    console.log($scope.hourly);
                     $scope.detectScale();
                     $scope.currentStatus = "weatherReady";
 
