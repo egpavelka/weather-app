@@ -8189,20 +8189,16 @@ body {
 .city-search input,
 .scale input {
   color: #444;
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   letter-spacing: initial;
   padding: 5px 10px;
 }
 
 .selectpicker {
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.6);
-  border-radius: 10px;
   color: #444;
-  font-size: 1rem;
+  font-size: 1.15rem;
+  height: 30px;
   padding: 4px 1px 4px 7px;
 }
 

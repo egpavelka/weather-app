@@ -21,6 +21,13 @@ _____________________________________________________________
 _____________________________________________________________
 
 # CHANGELOG
+## [Release 1.2] 2016.11.25
+### COMPLETED
+- Removed border radius on select and input elements due to goofiness on mobile; increased size and font size of those elements for better touch use.
+- Fixed issue with hourly carousel where resizing the window would change number of items per slide but not return the view to the initial slide/hour.  (Added rn-carousel-deep-watch option to outer li, changed $watch in directive to return carouselIndex to 0 on collection change).
+### IN PROGRESS
+- Find a better API to look up city names from coordinates.
+
 ## [Release 1.1] 2016.11.23
 ### COMPLETED
 - Overhauled to use Weather Underground instead of Open Weather Map API.  This should allow searches by geolocation in browsers (like newer Chrome) that require SSL for location services.

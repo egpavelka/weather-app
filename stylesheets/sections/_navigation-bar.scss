@@ -31,7 +31,7 @@
   input {
     @extend %cond;
     color: $dkgrey;
-    font-size: 1.25rem;
+    font-size: 1.35rem;
     letter-spacing: initial;
     padding: 5px 10px;
   }
@@ -39,11 +39,11 @@
 
 .selectpicker {
   @extend %upper;
-  @include border-radius(10px);
+  // @include border-radius(10px);
   background-color: rgba($white, .6);
-  border-radius: 10px;
   color: $dkgrey;
-  font-size: 1rem;
+  font-size: 1.15rem;
+  height: 30px;
   padding: 4px 1px 4px 7px;
   }
 

@@ -3,7 +3,7 @@
     <!-- current conditions -->
     <div class="current row">
       <div class = "city-name">
-        {{ current.display_location.full}}
+        {{ city }}
       </div>
       <div class="icon"><img ng-src="icon/{{ current.icon }}.png" />
       </div>
@@ -25,7 +25,7 @@
 
 <div class="list"><ul rn-carousel>
 <!-- Container slide: contains 3 forecasts -->
-<li ng-repeat="slide in hourlySlides" class="slide">
+<li ng-repeat="slide in hourlySlides" class="slide" rn-carousel-deep-watch="true">
 <span class="rn-carousel-control rn-carousel-control-prev ng-scope" ng-click="prevSlide()" ng-if="carouselIndex > 0 || false"></span>
 <ul>
 <li ng-repeat="hour in slide" class="list-entry">

@@ -551,12 +551,16 @@ angular.module('angular-carousel').run(['$templateCache', function($templateCach
                                 currentSlides = newValue;
                                 // if deepWatch ON ,manually compare objects to guess the new position
                                 if (deepWatch && angular.isArray(newValue)) {
-                                    var activeElement = oldValue[scope.carouselIndex];
-                                    var newIndex = getItemIndex(newValue, activeElement, scope.carouselIndex);
-                                    goToSlide(newIndex, {animate: false});
-                                } else {
-                                    goToSlide(scope.carouselIndex, {animate: false});
-                                }
+                                //     var activeElement = oldValue[scope.carouselIndex];
+                                //     var newIndex = getItemIndex(newValue, activeElement, scope.carouselIndex);
+                                //     goToSlide(newIndex, {animate: false});
+                                // } else {
+                                //     goToSlide(scope.carouselIndex, {animate: false});
+                                // }
+                                goToSlide(0, {animate: false});
+                            } else {
+                                goToSlide(0, {animate: false});
+                            }
                             }, true);
                         }
 
