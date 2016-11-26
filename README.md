@@ -21,6 +21,12 @@ _____________________________________________________________
 _____________________________________________________________
 
 # CHANGELOG
+## [Release 1.3] 2016.11.25
+### COMPLETED
+- Fixed the city name horror with Google place API.
+### IN PROGRESS
+- Controller is cluttered with scale and window sizing scopes--consider moving to directive and factory, respectively.
+
 ## [Release 1.2] 2016.11.25
 ### COMPLETED
 - Removed border radius on select and input elements due to goofiness on mobile; increased size and font size of those elements for better touch use.

@@ -4,7 +4,7 @@
     // APP
     var app = angular.module('weatherApp', ['angular-carousel']);
 
-    app.controller('weatherController', ['$scope', '$window', '$timeout', 'geolocationService', 'cityService', 'weatherService', function($scope, $window, $timeout, geolocationService, cityService, weatherService) {
+    app.controller('weatherController', ['$scope', '$window','geolocationService', 'weatherService', function($scope, $window, geolocationService, weatherService) {
 
         // INITIALIZE RESULTS OF API QUERIES
         $scope.current = {};
@@ -24,7 +24,6 @@
         $scope.geolocation = function() {
             geolocationService.detectGeolocation()
                 .then(function(results) {
-                    $scope.city = cityService.getCityData(results.lat, results.lon);
                     $scope.fetchWeather(results.lat, results.lon);
                 }, function(err) {
                     console.log(err);
@@ -39,11 +38,14 @@
         $scope.fetchWeather = function(lat, lon) {
             weatherService.fetchWeather(lat, lon)
                 .then(function(data) {
-                    $scope.current = data.current_observation;
-                    $scope.hourly = data.hourly_forecast;
-                    $scope.daily = data.forecast.simpleforecast.forecastday;
-                    // city failsafe
-                    console.log($scope.city);
+                    $scope.city = data.city;
+                    $scope.current = data.current;
+                    $scope.hourly = data.hourly;
+                    $scope.daily = data.daily;
+                    // failsafe for city lookup
+                    if ($scope.city === '') {
+                      $scope.city = $scope.current.observation_location.city;
+                    }
                     // Set up hourly slides for current window
                     $scope.buildSlides($scope.slideCount);
                     // Set temperature scale
@@ -152,7 +154,7 @@
         };
     }]);
     // Enable Google location search with autocomplete
-    app.directive('googleplace', ['weatherService', 'cityService', '$window', function(weatherService, cityService, $window) {
+    app.directive('googleplace', ['weatherService', '$window', function(weatherService, $window) {
         return {
             require: 'ngModel',
             controller: 'weatherController',
@@ -180,7 +182,6 @@
                     scope.$apply(function() {
                         scope.details = scope.searchLocation.getPlace();
                         model.$setViewValue(element.val());
-                        scope.$parent.city = cityService.getCityName(scope.details);
                         // Send coordinates to factory
                         scope.$parent.fetchWeather(
                             scope.details.geometry.location.lat(), scope.details.geometry.location.lng());
@@ -195,44 +196,44 @@
 
     // CHECK THE WEATHER
     // Make $http calls with the new URLs
-    app.factory('weatherService', ['$http', function($http) {
+    app.factory('weatherService', ['$http', '$q', function($http, $q) {
 
-        return {
-            fetchWeather: function(lat, lon) {
-                var weatherUrl = '//api.wunderground.com/api/2f6c61c87edae1a8/conditions/hourly/forecast10day/q/' + lat + ',' + lon + '.json';
-                return $http.get(weatherUrl)
-                    .then(function(results) {
-                        return results.data;
-                    });
-            }
-        };
+      return {
+        fetchWeather: function (lat, lon) {
+
+        var cityUrl = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lon + '&key=AIzaSyAH_JegEmVYDzTPCNhqp2au7vt5GbZ_DTY';
+        var weatherUrl = '//api.wunderground.com/api/2f6c61c87edae1a8/conditions/hourly/forecast10day/q/' + lat + ',' + lon + '.json';
+
+            return $q.all([
+                $http.get(cityUrl),
+                $http.get(weatherUrl)])
+                .then(function(responses){
+                  // set up results object
+                  var weatherData = {
+                    city: '',
+                    current: '',
+                    hourly: '',
+                    daily: ''
+                  };
+                  // grab city name from first call
+                  var place = responses[0].data.results[0];
+                  for (var i = 0; i < place.address_components.length; i++) {
+                      var addressType = place.address_components[i].types[0];
+                      if (addressType === 'locality') {
+                          weatherData.city = place.address_components[i].long_name;
+                      }
+                  }
+                  // grab weather data from second call
+                  weatherData.current = responses[1].data.current_observation;
+                  weatherData.hourly = responses[1].data.hourly_forecast;
+                  weatherData.daily = responses[1].data.forecast.simpleforecast.forecastday;
+
+                  return weatherData;
+                });
+
+            }};
 
     }]);
-
-    app.factory('cityService', ['$http', function($http) {
-      var cityName = {};
-
-            cityName.getCityData = function(lat, lon) {
-                var cityUrl = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lon + '&key=AIzaSyAH_JegEmVYDzTPCNhqp2au7vt5GbZ_DTY';
-                return $http.get(cityUrl)
-                    .then(function(results) {
-                        return cityName.getCityName(results.data.results[0]);
-                    });
-            };
-
-            cityName.getCityName = function(place) {
-              console.log(place);
-                for (var i = 0; i < place.address_components.length; i++) {
-                    var addressType = place.address_components[i].types[0];
-                    console.log(addressType);
-                    if (addressType === 'locality') {
-                        return place.address_components[i].long_name;
-                    }
-                }
-            };
-                return cityName;
-        }
-    ]);
 
     // Filter to convert given temperatures from Kelvin to Fahrenheit or Celsius; used with ng-show to switch between the two.
     app.filter('convertTemp', [function() {
