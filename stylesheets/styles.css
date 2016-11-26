@@ -7995,7 +7995,7 @@ body {
 
 .container {
   padding-bottom: 50px;
-  padding-top: 100px;
+  padding-top: 120px;
 }
 
 .col-xs-3,
@@ -8168,8 +8168,11 @@ body {
 
 .location,
 .scale {
-  padding-bottom: 5px;
-  padding-top: 5px;
+  padding: 5px 7px;
+}
+
+.detect-location-icon {
+  padding-right: 5px;
 }
 
 .detect-location-icon img {
@@ -8178,12 +8181,6 @@ body {
 
 .detect-location-icon img:hover {
   cursor: pointer;
-}
-
-.city-search,
-.scale {
-  padding-left: 7px;
-  padding-right: 7px;
 }
 
 .city-search input,
@@ -8195,11 +8192,15 @@ body {
 }
 
 .selectpicker {
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.6);
   color: #444;
   font-size: 1.15rem;
   height: 30px;
-  padding: 4px 1px 4px 7px;
+  padding: 4px 7px;
 }
 
 .scale-select .selectpicker {

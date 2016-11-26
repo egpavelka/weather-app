@@ -558,8 +558,10 @@ angular.module('angular-carousel').run(['$templateCache', function($templateCach
                                 //     goToSlide(scope.carouselIndex, {animate: false});
                                 // }
                                 goToSlide(0, {animate: false});
+                                console.log('change');
                             } else {
                                 goToSlide(0, {animate: false});
+                                console.log('change');
                             }
                             }, true);
                         }
