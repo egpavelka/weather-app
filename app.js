@@ -4,7 +4,7 @@
     // APP
     var app = angular.module('weatherApp', ['angular-carousel']);
 
-    app.controller('weatherController', ['$scope', '$window','geolocationService', 'weatherService', function($scope, $window, geolocationService, weatherService) {
+    app.controller('weatherController', ['$scope', '$window', 'geolocationService', 'weatherService', function($scope, $window, geolocationService, weatherService) {
 
         // INITIALIZE RESULTS OF API QUERIES
         $scope.current = {};
@@ -58,7 +58,8 @@
                 });
         };
 
-        // TEMPERATURE SCALE FUNCTIONS: change scope variable for 'if' statement in scale filter
+        // TEMPERATURE SCALE FUNCTIONS: change scope variable for
+        // 'if' statement in scale filter
         // Default to Fahrenheit
         $scope.scaleOptions = [{
             name: 'Celsius',
@@ -72,7 +73,8 @@
         // Autoset the scale to the one preferred by the selected location's country.
         $scope.detectScale = function(scale) {
             var fahrCountries = ['BS', 'BZ', 'KY', 'PW', 'US', 'PR', 'GU', 'VI'];
-            //['The Bahamas', 'Belize', 'Cayman Islands', 'Palau', 'United States', 'Puerto Rico', 'Guam', 'U.S. Virgin Islands']
+            // ['The Bahamas', 'Belize', 'Cayman Islands', 'Palau',
+            // 'United States', 'Puerto Rico', 'Guam', 'U.S. Virgin Islands']
             var country = $scope.current.observation_location.country;
             if (fahrCountries.indexOf(country) === -1) {
                 $scope.scale = $scope.scaleOptions[0].val;
@@ -81,7 +83,8 @@
             }
         };
 
-        // WATCH WINDOW SIZE: change number of hourly forecasts that appear on each slide and change the width of the weather info container to fit.
+        // WATCH WINDOW SIZE: change number of hourly forecasts that appear on
+        // each slide and change the width of the weather info container to fit.
         $scope.buildSlides = function(n) {
             var hourlySlides = [],
                 slide = [];
@@ -139,7 +142,8 @@
                 var coords = {};
                 // CHECK FOR GEOLOCATION
                 if ($window.navigator && $window.navigator.geolocation) {
-                    $window.navigator.geolocation.getCurrentPosition(function(position) {
+                    $window.navigator.geolocation
+                    .getCurrentPosition(function(position) {
                         coords.lat = position.coords.latitude;
                         coords.lon = position.coords.longitude;
                         deferred.resolve(coords);
@@ -154,7 +158,8 @@
         };
     }]);
     // Enable Google location search with autocomplete
-    app.directive('googleplace', ['weatherService', '$window', function(weatherService, $window) {
+    app.directive('googleplace', ['weatherService', '$window',
+    function(weatherService, $window) {
         return {
             require: 'ngModel',
             controller: 'weatherController',
@@ -170,24 +175,24 @@
 
                 // Select all on click
                 element.on('click', function() {
-                    if (!$window.getSelection().toString()) {
-                        // Required for mobile Safari
-                        this.setSelectionRange(0, this.value.length);
-                    }
+                  if (!$window.getSelection().toString()) {
+                      // Required for mobile Safari
+                      this.setSelectionRange(0, this.value.length);
+                  }
                 });
 
-                scope.searchLocation = new google.maps.places.Autocomplete(element[0], options);
+                scope.searchLocation = new
+                google.maps.places.Autocomplete(element[0], options);
 
-                google.maps.event.addListener(scope.searchLocation, 'place_changed', function() {
+                google.maps.event.addListener(scope.searchLocation,
+                  'place_changed', function() {
                     scope.$apply(function() {
-                        scope.details = scope.searchLocation.getPlace();
-                        model.$setViewValue(element.val());
-                        // Send coordinates to factory
-                        scope.$parent.fetchWeather(
-                            scope.details.geometry.location.lat(), scope.details.geometry.location.lng());
-
-                        //TODO add factory link getCountryName(scope.details.address_components);
-
+                      scope.details = scope.searchLocation.getPlace();
+                      model.$setViewValue(element.val());
+                      // Send coordinates to factory
+                      scope.$parent.fetchWeather(
+                        scope.details.geometry.location.lat(),
+                        scope.details.geometry.location.lng());
                     });
                 });
             }
@@ -201,8 +206,12 @@
       return {
         fetchWeather: function (lat, lon) {
 
-        var cityUrl = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lon + '&key=AIzaSyAH_JegEmVYDzTPCNhqp2au7vt5GbZ_DTY';
-        var weatherUrl = '//api.wunderground.com/api/2f6c61c87edae1a8/conditions/hourly/forecast10day/q/' + lat + ',' + lon + '.json';
+        var cityUrl =
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng='
+        + lat + ',' + lon + '&key=AIzaSyAH_JegEmVYDzTPCNhqp2au7vt5GbZ_DTY';
+        var weatherUrl =
+        '//api.wunderground.com/api/2f6c61c87edae1a8/conditions/hourly/forecast10day/q/'
+        + lat + ',' + lon + '.json';
 
             return $q.all([
                 $http.get(cityUrl),
@@ -220,13 +229,15 @@
                   for (var i = 0; i < place.address_components.length; i++) {
                       var addressType = place.address_components[i].types[0];
                       if (addressType === 'locality') {
-                          weatherData.city = place.address_components[i].long_name;
+                          weatherData.city =
+                          place.address_components[i].long_name;
                       }
                   }
                   // grab weather data from second call
                   weatherData.current = responses[1].data.current_observation;
                   weatherData.hourly = responses[1].data.hourly_forecast;
-                  weatherData.daily = responses[1].data.forecast.simpleforecast.forecastday;
+                  weatherData.daily =
+                  responses[1].data.forecast.simpleforecast.forecastday;
 
                   return weatherData;
                 });
@@ -235,6 +246,48 @@
 
     }]);
 
+
+    // Filter to use local icon instead of WU-hosted icon by stripping
+    // icon_url of all but its file name. (Actual "icon" key returns
+    // base icon file name but does not specify night/day.)
+    app.filter('localIcon', [function() {
+
+        return function(forecast, type) {
+          // extract icon filename
+          var stripFile = forecast.icon_url
+              .substring(
+                forecast.icon_url.lastIndexOf('/'),
+                forecast.icon_url.lastIndexOf('.'));
+
+          // check whether icon or background should be returned
+          var filetype = '',
+          folder = '';
+          if (type === 'ico') {
+            filetype = '.png';
+            folder = 'icon/';
+          }
+          else if (type === 'bg') {
+            filetype = '.jpg';
+            folder = 'img/'
+          }
+
+          // initialize image path value to return
+          var imgFile = new Image();
+          // check if image exists and assign image source
+          if (forecast.icon === '') {
+            // sometimes no icon is specified in API
+            imgFile.src = folder + 'unknown' + filetype;
+          } else {
+            // check for image with name pulled from icon_url
+            imgFile.src = folder + stripFile + filetype;
+            // if not, go with regular icon
+            imgFile.onerror = function() {
+              imgFile.src = folder + forecast.icon + filetype;
+            }
+          }
+          return imgFile.src;
+        };
+    }]);
     // Filter to convert given temperatures from Kelvin to Fahrenheit or Celsius; used with ng-show to switch between the two.
     app.filter('convertTemp', [function() {
 

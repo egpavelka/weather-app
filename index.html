@@ -39,7 +39,7 @@
   <script src="app.js"></script>
 </head>
 
-<body ng-controller="weatherController" ng-init="geolocation()" ng-style="currentStatus === 'weatherReady' && {'background-image':'url(img/'+current.icon+'.jpg)'}">
+<body ng-controller="weatherController" ng-init="geolocation()" ng-style="currentStatus === 'weatherReady' && {'background-image':'url(' + (  current | localIcon: 'bg' ) + ')'}">
 
     <!-- NAVIGATION BAR -->
 

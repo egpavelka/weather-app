@@ -5,7 +5,7 @@
       <div class = "city-name">
         {{ city }}
       </div>
-      <div class="icon"><img ng-src="icon/{{ current.icon }}.png" />
+      <div class="icon"><img ng-src="{{ current | localIcon: 'ico' }}" />
       </div>
         <div class="temp">{{ current.temp_c | convertTemp: scale }}</div>
         <div class="cond">{{ current.weather }}</div>
@@ -31,7 +31,7 @@
 <li ng-repeat="hour in slide" class="list-entry">
   <div class="stretch-slide">
   <div class="time">{{ hour.FCTTIME.civil}}</div>
-  <div class="icon"><img ng-src="icon/{{ hour.icon }}.png" /></div>
+  <div class="icon"><img ng-src="{{ hour | localIcon: 'ico' }}" /></div>
   <div class="temp">{{ hour.temp.metric | convertTemp: scale }}</div>
   <div class="cond">{{ hour.condition }}</div>
 </div>
@@ -50,7 +50,7 @@
   <div class="day col-xs-5 col-s-4">
       {{ day.date.epoch*1000 | date: 'EEEE'}}
   </div>
-  <div class="icon col-xs-3 col-s-4"><img ng-src="icon/{{ day.icon }}.png" /></div>
+  <div class="icon col-xs-3 col-s-4"><img ng-src="{{ day | localIcon: 'ico' }}" /></div>
   <div class="temp col-xs-4 col-s-4">
       <span class="high">{{ day.high.celsius | convertTemp: scale }}</span>
       <span class="low">{{ day.low.celsius | convertTemp: scale }}</span>
